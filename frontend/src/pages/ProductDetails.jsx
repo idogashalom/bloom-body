@@ -79,7 +79,7 @@ const ProductDetails = () => {
 
           <div className="quantity-selector">
             <p>Quantity</p>
-            <div className="quantity-controls" >
+            <div className="quantity-controls">
               <button type="button" onClick={() => setQuantity((value) => Math.max(1, value - 1))}>-</button>
               <span>{quantity}</span>
               <button type="button" onClick={() => setQuantity((value) => value + 1)}>+</button>
