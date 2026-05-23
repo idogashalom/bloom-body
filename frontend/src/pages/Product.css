@@ -1,0 +1,409 @@
+.products-page {
+  width: min(900px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 44px 0 64px;
+}
+
+.products-header {
+  text-align: center;
+  margin-bottom: 36px;
+  font-family: "'Great Vibes', cursive";
+}
+
+.products-header h1 {
+  margin: 0 0 12px;
+  color: var(--text-dark);
+  font-size: 40px;
+  letter-spacing: 0;
+  font-family: "'Great Vibes', cursive";
+}
+
+.products-header hr {
+  width: 100%;
+  border: 0;
+  border-top: 2px solid var(--primary-pink);
+}
+
+.products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.product-list-item {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  border: 1px solid rgba(233, 30, 99, 0.15);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.product-list-image {
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  display: block;
+  object-fit: cover;
+  background: var(--nude-peach);
+}
+
+.product-details {
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.product-details h2 {
+  margin: 0 0 8px;
+  color: var(--text-dark);
+  font-family: "'Great Vibes', cursive";
+  font-size: 24px;
+  letter-spacing: 0;
+}
+
+.product-stars {
+  display: inline-flex;
+  gap: 4px;
+  color: gold;
+  margin-bottom: 10px;
+}
+
+.product-star {
+  position: relative;
+  display: inline-block;
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 1;
+  -webkit-text-stroke: 1px gold;
+  text-shadow:
+    1px 0 gold,
+    -1px 0 gold,
+    0 1px gold,
+    0 -1px gold;
+}
+
+.product-star.is-full {
+  color: gold;
+}
+
+.product-star.is-half::before {
+  content: "\2605";
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  overflow: hidden;
+  color: gold;
+  -webkit-text-stroke: 1px gold;
+}
+
+.product-price {
+  color: var(--text-dark);
+  font-weight: 800;
+  font-size: large;
+  font-family: "'Great Vibes', cursive";
+  margin-bottom: 16px;
+}
+
+.product-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.view-btn,
+.add-cart-btn {
+  min-height: 42px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 60px;
+  font-weight: 200;
+  font-size: 18px;
+  font-family: "'Great Vibes', cursive";
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.view-btn {
+  border: 1px solid rgba(233, 30, 99, 0.22);
+  color: var(--deep-pink);
+  font-family: "'Great Vibes', cursive";
+  background: var(--nude-peach);
+}
+
+.add-cart-btn {
+border: 1px solid rgba(233, 30, 99, 0.22);
+  color: var(--deep-pink);
+  font-family: "'Great Vibes', cursive";
+  background: var(--nude-peach);
+  box-shadow: 0 12px 24px rgba(233, 30, 99, 0.22);
+}
+
+@media (max-width: 600px) {
+  .product-list-item {
+    grid-template-columns: 1fr;
+  }
+
+  .product-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .view-btn,
+  .add-cart-btn {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .products-page {
+    padding: 40px 20px;
+  }
+
+  .products-header h1 {
+    font-size: 34px;
+  }
+
+  .products-list {
+    gap: 20px;
+  }
+
+  .product-list-item {
+    grid-template-columns: 170px minmax(0, 1fr);
+    border-radius: 10px;
+  }
+
+  .product-list-image {
+    min-height: 160px;
+  }
+
+  .product-details {
+    padding: 18px;
+  }
+
+  .product-details h2 {
+    font-size: 20px;
+  }
+
+  .product-price {
+    font-size: 19px;
+  }
+
+  .view-btn,
+  .add-cart-btn {
+    min-height: 38px;
+    padding: 0 16px;
+    font-size: 17px;
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 820px) {
+
+  .products-page {
+    padding: 36px 18px;
+  }
+
+  .products-header h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+
+  .products-header hr {
+    margin: 24px 0;
+  }
+
+  .products-list {
+    gap: 18px;
+  }
+
+  .product-list-item {
+    grid-template-columns: 140px minmax(0, 1fr);
+    border-radius: 10px;
+  }
+
+  .product-list-image {
+    min-height: 140px;
+  }
+
+  .product-details {
+    padding: 16px;
+  }
+
+  .product-details h2 {
+    font-size: 18px;
+  }
+
+  .product-stars {
+    gap: 3px;
+  }
+
+  .product-star {
+    font-size: 20px;
+  }
+
+  .product-price {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .product-buttons {
+    gap: 8px;
+  }
+
+  .view-btn,
+  .add-cart-btn {
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: 16px;
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .products-page {
+    padding: 32px 16px;
+  }
+
+  .products-header h1 {
+    font-size: 28px;
+  }
+
+  .products-header p {
+    font-size: 14px;
+  }
+
+  .products-header hr {
+    margin: 20px 0;
+  }
+
+  .products-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .product-list-item {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+  }
+
+  .product-list-image {
+    min-height: 140px;
+  }
+
+  .product-details {
+    padding: 12px;
+    flex: 1;
+  }
+
+  .product-details h2 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .product-price {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  .product-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .view-btn,
+  .add-cart-btn {
+    flex: 1;
+    min-height: 36px;
+    padding: 0 4px;
+    font-size: 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(233, 30, 99, 0.15);
+    white-space: nowrap;
+    justify-content: center;
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .products-page {
+    padding: 28px 12px;
+  }
+
+  .products-header h1 {
+    font-size: 24px;
+  }
+
+  .products-header p {
+    font-size: 13px;
+  }
+
+  .products-header hr {
+    margin: 16px 0;
+  }
+
+  .products-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .product-list-item {
+    border-radius: 10px;
+  }
+
+  .product-list-image {
+    min-height: 120px;
+  }
+
+  .product-details {
+    padding: 10px;
+  }
+
+  .product-details h2 {
+    font-size: 14px;
+  }
+
+  .product-price {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .view-btn,
+  .add-cart-btn {
+    flex: 1;
+    min-height: 32px;
+    padding: 0 4px;
+    font-size: 11px;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(233, 30, 99, 0.15);
+    white-space: nowrap;
+    justify-content: center;
+  }
+} 
+  

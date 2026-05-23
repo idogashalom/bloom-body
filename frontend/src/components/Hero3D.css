@@ -1,0 +1,93 @@
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+}
+
+.hero-card {
+  perspective: 1200px;
+  background-color: var(--primary-color);
+}
+
+.hero-image {
+  width: min(360px, 78vw);
+  transition: transform 0.15s ease;
+  transition: preserve-3d;
+  border-radius: 8px;
+
+/* depth illustion */
+ box-shadow: 0 24px 54px rgba(168, 77, 95, 0.18); 
+filter: drop-shadow(0 30px 24px rgba(95, 50, 40, 0.22));
+}
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .hero-container {
+    min-height: 380px;
+    padding: 10px;
+  }
+
+  .hero-image {
+    width: min(320px, 72vw);
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 768px) {
+
+  .hero-container {
+    min-height: 340px;
+    padding: 14px;
+  }
+
+  .hero-card {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-image {
+    width: min(280px, 70vw);
+    border-radius: 18px;
+    filter: drop-shadow(0 22px 20px rgba(95, 50, 40, 0.2));
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .hero-container {
+    min-height: 300px;
+    padding: 12px;
+  }
+
+  .hero-image {
+    width: min(240px, 82vw);
+    border-radius: 16px;
+    filter: drop-shadow(0 18px 18px rgba(95, 50, 40, 0.18));
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .hero-container {
+    min-height: 260px;
+    padding: 10px;
+  }
+
+  .hero-image {
+    width: min(210px, 88vw);
+    border-radius: 14px;
+    filter: drop-shadow(0 14px 14px rgba(95, 50, 40, 0.16));
+  }
+}

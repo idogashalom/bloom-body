@@ -1,0 +1,413 @@
+.product-details-page {
+  width: min(900px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 44px 0 64px;
+}
+
+.product-details-header {
+  margin-bottom: 34px;
+  text-align: center;
+}
+
+.product-details-header h1 {
+  margin: 0 0 12px;
+  color: var(--text-dark);
+  font-size: 40px;
+  font-family: "'Great Vibes', cursive";
+  letter-spacing: 0;
+}
+
+.product-details-header hr,
+.product-details-footer-lines hr {
+  border: 0;
+  border-top: 2px solid var(--primary-pink);
+}
+
+.product-details-content {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.product-details-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: block;
+  border: 8px solid #fff;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 24px 48px rgba(233, 30, 99, 0.2);
+}
+
+.product-details-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.product-details-info h2 {
+  margin: 0 0 12px;
+  color: var(--text-dark);
+  font-size: 30px;
+  letter-spacing: 0;
+    font-family: "'Great Vibes', cursive";
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.product-rating-star {
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  color: #ffffff;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 30px;
+  line-height: 1;
+  -webkit-text-stroke: 1px gold;
+  text-shadow:
+    1px 0 gold,
+    -1px 0 gold,
+    0 1px gold,
+    0 -1px gold;
+}
+
+.product-rating-star::before {
+  display: none;
+}
+
+.product-rating-star:hover,
+.product-rating-star:active,
+.product-rating-star:focus-visible {
+  color: #ffffff !important;
+  background: transparent;
+  box-shadow: none;
+}
+
+.product-rating-star.is-rated,
+.product-rating-star.is-rated:hover,
+.product-rating-star.is-rated:active,
+.product-rating-star.is-rated:focus-visible {
+  color: gold !important;
+}
+
+.product-details-price {
+  color: var(--text-dark);
+  font-weight: 200;
+  margin-bottom: 18px;
+font-family: "'Great Vibes', cursive";
+}
+
+.product-details-description {
+  color: #5f3c42;
+  line-height: 1.7;
+  margin-bottom: 26px;
+    font-family: "'Great Vibes', cursive";
+}
+
+.quantity-selector {
+  margin-bottom: 28px;
+}
+
+.quantity-selector p {
+  margin-bottom: 10px;
+  color: var(--text-dark);
+    font-family: "'Great Vibes', cursive";
+  font-weight: 200;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-controls button {
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgba(233, 30, 99, 0.2);
+  border-radius: 999px;
+  color: #333;
+  background: var(--nude-peach);
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: "'Great Vibes', cursive";
+  font-weight: 200;
+}
+
+.add-to-cart-large {
+  width: fit-content;
+  min-height: 50px;
+  padding: 0 30px;
+  border: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(233, 30, 99, 0.22);
+    color: var(--deep-pink);
+    background: var(--nude-peach);
+  box-shadow: 0 12px 24px rgba(233, 30, 99, 0.22);
+  font: inherit;
+  font-family: "'Great Vibes', cursive";
+  font-weight: 200;
+  cursor: pointer;
+}
+
+.product-details-footer-lines hr {
+  margin-bottom: 14px;
+}
+
+@media (max-width: 650px) {
+  .product-details-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .product-details-page {
+    padding: 40px 20px;
+  }
+
+  .product-details-header h1 {
+    font-size: 34px;
+  }
+
+  .product-details-content {
+    gap: 28px;
+    margin-bottom: 32px;
+  }
+
+  .product-details-image {
+    border-radius: 10px;
+  }
+
+  .product-details-info h2 {
+    font-size: 26px;
+  }
+
+  .product-rating-star {
+    font-size: 26px;
+  }
+
+  .product-details-price {
+    font-size: 22px;
+  }
+
+  .product-details-description {
+    font-size: 17px;
+    margin-bottom: 20px;
+  }
+
+  .quantity-selector {
+    margin-bottom: 22px;
+  }
+
+  .quantity-controls button {
+    min-height: 36px;
+  }
+
+  .add-to-cart-large {
+    min-height: 44px;
+    padding: 0 24px;
+    font-size: 19px;
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 820px) {
+
+  .product-details-page {
+    padding: 36px 18px;
+  }
+
+  .product-details-header h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+  }
+
+  .product-details-header hr,
+  .product-details-footer-lines hr {
+    margin: 20px 0;
+  }
+
+  .product-details-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+
+  .product-details-image {
+    border-radius: 10px;
+  }
+
+  .product-details-info h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .product-rating {
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .product-rating-star {
+    font-size: 24px;
+  }
+
+  .product-details-price {
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .product-details-description {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .quantity-selector {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .quantity-controls {
+    justify-content: center;
+  }
+
+  .quantity-controls button {
+    min-height: 34px;
+    font-size: 18px;
+  }
+
+  .add-to-cart-large {
+    margin: 0 auto;
+    min-height: 42px;
+    padding: 0 20px;
+    font-size: 18px;
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .product-details-page {
+    padding: 32px 16px;
+  }
+
+  .product-details-header h1 {
+    font-size: 26px;
+  }
+
+  .product-details-header hr,
+  .product-details-footer-lines hr {
+    margin: 18px 0;
+  }
+
+  .product-details-image {
+    border-radius: 12px;
+  }
+
+  .product-details-info h2 {
+    font-size: 22px;
+  }
+
+  .product-rating-star {
+    font-size: 22px;
+  }
+
+  .product-details-price {
+    font-size: 19px;
+  }
+
+  .product-details-description {
+    font-size: 15px;
+  }
+
+  .quantity-selector {
+    margin-bottom: 18px;
+  }
+
+  .quantity-controls {
+    gap: 10px;
+  }
+
+  .quantity-controls button {
+    min-height: 32px;
+    font-size: 17px;
+  }
+
+  .add-to-cart-large {
+    min-height: 40px;
+    padding: 0 18px;
+    font-size: 17px;
+    box-shadow: 0 10px 20px rgba(233, 30, 99, 0.2);
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .product-details-page {
+    padding: 28px 12px;
+  }
+
+  .product-details-header h1 {
+    font-size: 24px;
+  }
+
+  .product-details-header hr,
+  .product-details-footer-lines hr {
+    margin: 16px 0;
+  }
+
+  .product-details-image {
+    min-height: 220px;
+    border-radius: 10px;
+  }
+
+  .product-details-info h2 {
+    font-size: 20px;
+  }
+
+  .product-rating-star {
+    font-size: 20px;
+  }
+
+  .product-details-price {
+    font-size: 18px;
+  }
+
+  .product-details-description {
+    font-size: 14px;
+  }
+
+  .quantity-controls button {
+    min-height: 30px;
+    font-size: 16px;
+  }
+
+  .add-to-cart-large {
+    min-height: 38px;
+    padding: 0 16px;
+    font-size: 16px;
+    box-shadow: 0 8px 18px rgba(233, 30, 99, 0.2);
+  }
+} 
+    

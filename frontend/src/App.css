@@ -1,0 +1,149 @@
+/* =========================
+   UNIFORM CONTROLS
+========================= */
+:root {
+  --bloom-button-bg: rgba(255, 245, 247, 0.96);
+  --bloom-input-bg: rgba(255, 241, 243, 0.72);
+  --bloom-control-border: rgba(233, 30, 99, 0.22);
+}
+
+button:not(.social-btn):not(.product-rating-star):not(.testimonial-heart):not(.dot):not(.bloom-modal-close):not(.menu-toggle):not(.delivery-notice-close),
+.home-cta-button,
+.view-products-button,
+.view-btn,
+.add-cart-btn,
+.add-to-cart-large,
+.delete-btn,
+.order-btn,
+.clear-cart-btn,
+.auth-link-button,
+.auth-form button,
+.bloom-modal-button,
+.login-link,
+.submit-button,
+.confirm-payment-btn,
+.copy-btn,
+.track-order-link {
+  width: fit-content !important;
+  min-height: 46px !important;
+  padding: 0 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid var(--bloom-control-border) !important;
+  border-radius: 999px !important;
+  color: var(--deep-pink) !important;
+  background: var(--bloom-button-bg) !important;
+  box-shadow: 0 12px 24px rgba(233, 30, 99, 0.16) !important;
+  font: inherit !important;
+  font-family: "'Great Vibes', cursive" !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+}
+
+button:not(.social-btn):not(.product-rating-star):not(.testimonial-heart):not(.dot):not(.bloom-modal-close):not(.menu-toggle):not(.delivery-notice-close):hover,
+.home-cta-button:hover,
+.view-products-button:hover,
+.view-btn:hover,
+.add-cart-btn:hover,
+.add-to-cart-large:hover,
+.delete-btn:hover,
+.order-btn:hover,
+.clear-cart-btn:hover,
+.auth-link-button:hover,
+.auth-form button:hover,
+.bloom-modal-button:hover,
+.login-link:hover,
+.submit-button:hover,
+.confirm-payment-btn:hover,
+.copy-btn:hover,
+.track-order-link:hover {
+  color: #fff !important;
+  border-color: var(--deep-pink) !important;
+  box-shadow: 0 14px 28px rgba(233, 30, 99, 0.24) !important;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  border: 1px solid var(--bloom-control-border) !important;
+  border-radius: 8px !important;
+  background: var(--bloom-input-bg) !important;
+  color: var(--text-dark) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):focus,
+textarea:focus,
+select:focus,
+input:not([type="checkbox"]):not([type="radio"]):focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  border-color: var(--bloom-control-border) !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(51, 51, 51, 0.48) !important;
+}
+
+.quantity-controls button,
+.cart-quantity-controls button,
+.product-rating-star,
+.testimonial-heart,
+.feature-carousel-dots .dot,
+.bloom-modal-close {
+  box-shadow: none !important;
+}
+
+.quantity-controls button::before,
+.cart-quantity-controls button::before,
+.product-rating-star::before,
+.testimonial-heart::before,
+.feature-carousel-dots .dot::before,
+.bloom-modal-close::before {
+  display: none !important;
+}
+
+.social-btn:hover,
+.social-btn:active,
+.social-btn:focus-visible {
+  color: var(--deep-pink) !important;
+}
+
+.quantity-controls button,
+.cart-quantity-controls button {
+  width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid rgba(233, 30, 99, 0.2) !important;
+  border-radius: 999px !important;
+  color: var(--deep-pink) !important;
+  background: var(--nude-peach) !important;
+  font: inherit !important;
+  line-height: 1 !important;
+  transform: none !important;
+}
+
+.quantity-controls button:hover,
+.quantity-controls button:active,
+.quantity-controls button:focus-visible,
+.cart-quantity-controls button:hover,
+.cart-quantity-controls button:active,
+.cart-quantity-controls button:focus-visible {
+  color: var(--deep-pink) !important;
+  box-shadow: none !important;
+}

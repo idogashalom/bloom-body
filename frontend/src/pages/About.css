@@ -1,0 +1,389 @@
+.about-page {
+  width: min(1000px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 44px 0 64px;
+  color: var(--text-dark);
+  font-family: "'Great Vibes', cursive";
+}
+
+.about-header {
+  font-family: "'Great Vibes', cursive";
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.about-header h1,
+.story-text h2,
+.mission h2,
+.aim-objective h2 {
+  color: var(--text-dark);
+  font-family: "'Great Vibes', cursive";
+  letter-spacing: 0;
+}
+
+.about-header h1 {
+  margin: 0 0 12px;
+  font-size: clamp(36px, 6vw, 56px);
+}
+
+.about-header hr,
+.short-hr,
+.full-hr {
+  border: 0;
+  border-top: 2px solid var(--primary-pink);
+}
+
+.about-header hr,
+.full-hr {
+  width: 100%;
+}
+
+.short-hr {
+  width: 130px;
+  margin: 0 0 18px;
+}
+
+.full-hr {
+  margin: 30px 0;
+}
+
+.our-story {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, 360px);
+  gap: 34px;
+  align-items: center;
+  margin-bottom: 44px;
+}
+
+.story-text {
+  text-align: left;
+}
+
+.story-text h2,
+.mission h2,
+.aim-objective h2 {
+  margin: 0 0 10px;
+  font-size: 28px;
+}
+
+.story-text p,
+.mission p {
+  color: #5f3c42;
+  line-height: 1.75;
+  margin-bottom: 15px;
+}
+
+.story-image-card {
+  position: relative;
+  perspective: 900px; /* enables the 3D rotation */
+}
+
+.story-image-card::before {
+  position: absolute;
+  inset: 18px -14px -18px 14px; /* enables the pink background behind the image */
+  border-radius: 8px; /* enables the rounded corners */
+  background: var(--primary-pink); 
+  box-shadow: 0 24px 44px rgba(233, 30, 99, 0.25);
+  content: "";
+  transform: rotate(2deg); /* enables the 3D rotation */
+}
+
+.story-image-card img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 4 / 5; /* enables the 3D rotation */
+  display: block;
+  border: 8px solid #fff;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 30px 50px rgba(233, 30, 99, 0.24);
+  transform: rotateY(-7deg) rotateX(3deg); /* enables the 3D rotation */
+}
+
+.mission {
+  margin-bottom: 44px;
+  padding: 30px;
+  border-left: 5px solid var(--deep-pink);
+  border-radius: 8px;
+  background: var(--nude-peach);
+  box-shadow: 0 18px 34px rgba(233, 30, 99, 0.11);
+  text-align: left;
+}
+
+.aim-objective h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.aim-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.aim-cards img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: block;
+  border: 1px solid rgba(233, 30, 99, 0.14);
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 16px 34px rgba(233, 30, 99, 0.14);
+}
+
+@media (max-width: 768px) {
+  .our-story {
+    grid-template-columns: 1fr;
+  }
+
+  .story-image-card {
+    width: min(360px, 92%);
+    margin: 0 auto;
+  }
+
+  .aim-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .about-page {
+    padding: 40px 20px;
+  }
+
+  .about-header h1 {
+    font-size: 48px;
+  }
+
+  .our-story {
+    gap: 24px;
+  }
+
+  .story-image-card::before {
+    inset: 16px -10px -16px 10px;
+  }
+
+  .story-image-card img {
+    border-width: 6px;
+    transform: rotateY(-5deg) rotateX(2deg);
+  }
+
+  .mission {
+    padding: 24px;
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 768px) {
+
+  .about-page {
+    padding: 32px 16px;
+  }
+
+  .about-header h1 {
+    font-size: 40px;
+  }
+
+  .about-header h2 {
+    font-size: 24px;
+  }
+
+  .our-story {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .story-image-card {
+    width: min(360px, 92%);
+    margin: 0 auto;
+  }
+
+  .story-image-card::before {
+    inset: 14px -8px -14px 8px;
+    border-radius: 10px;
+  }
+
+  .story-image-card img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border: 8px solid #fff;
+    border-radius: 10px;
+    transform: rotateY(-6deg) rotateX(3deg);
+    box-shadow: 0 26px 44px rgba(233, 30, 99, 0.22);
+  }
+
+  .mission {
+    padding: 20px;
+    border-left-width: 3px;
+  }
+
+  .mission h2 {
+    font-size: 22px;
+  }
+
+  .mission p {
+    font-size: 15px;
+  }
+
+  .aim-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .aim-cards img {
+    border-width: 1px;
+    box-shadow: 0 14px 28px rgba(233, 30, 99, 0.14);
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .about-page {
+    padding: 28px 14px;
+  }
+
+  .about-header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  .about-header p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .short-hr {
+    width: 110px;
+    margin: 0 auto 16px;
+  }
+
+  .full-hr {
+    margin: 24px 0;
+  }
+
+  .our-story {
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+
+  .story-text h2,
+  .mission h2,
+  .aim-objective h2 {
+    font-size: 20px;
+  }
+
+  .story-text p,
+  .mission p {
+    font-size: 14px;
+  }
+
+  .story-image-card::before {
+    inset: 12px -6px -12px 6px;
+    border-radius: 8px;
+    transform: rotate(1deg);
+  }
+
+  .story-image-card img {
+    border-width: 6px;
+    border-radius: 8px;
+    transform: rotateY(-4deg) rotateX(2deg);
+    box-shadow: 0 20px 34px rgba(233, 30, 99, 0.18);
+  }
+
+  .mission {
+    padding: 16px;
+    margin-bottom: 36px;
+  }
+
+  .aim-objective {
+    margin-bottom: 36px;
+  }
+
+  .aim-objective h2 {
+    margin-bottom: 16px;
+  }
+
+  .aim-cards {
+    gap: 12px;
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .about-page {
+    padding: 20px 10px;
+  }
+
+  .about-header h1 {
+    font-size: 28px;
+  }
+
+  .about-header p {
+    font-size: 14px;
+  }
+
+  .short-hr {
+    width: 90px;
+    margin: 0 auto 14px;
+  }
+
+  .our-story {
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .story-text h2,
+  .mission h2,
+  .aim-objective h2 {
+    font-size: 18px;
+  }
+
+  .story-text p,
+  .mission p {
+    font-size: 13px;
+  }
+
+  .story-image-card::before {
+    inset: 10px -4px -10px 4px;
+    border-radius: 6px;
+  }
+
+  .story-image-card img {
+    border-width: 5px;
+    border-radius: 6px;
+    transform: rotateY(-3deg) rotateX(1deg);
+    box-shadow: 0 16px 28px rgba(233, 30, 99, 0.16);
+  }
+
+  .mission {
+    padding: 14px;
+    margin-bottom: 32px;
+  }
+
+  .aim-objective {
+    margin-bottom: 32px;
+  }
+
+  .aim-objective h2 {
+    margin-bottom: 12px;
+  }
+
+  .aim-cards {
+    gap: 10px;
+  }
+
+  .aim-cards img {
+    border-radius: 6px;
+  }
+}

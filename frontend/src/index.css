@@ -1,0 +1,438 @@
+:root {
+  /* ===== BLOOM BODY COLOR SYSTEM ===== */
+  --primary-pink: #f8c8d0;
+  --deep-pink: #e91e63;
+  --nude-peach: #fff1f3;
+  --light-bg: #fff5f7;
+  --text-dark: #333333;
+
+
+  --text: var(--text-dark);
+  --text-h: var(--text-dark);
+  --bg: #fff;
+  --border: var(--primary-pink);
+  --code-bg: var(--nude-peach);
+  --accent: var(--deep-pink);
+  --accent-bg: rgba(233, 30, 99, 0.1);
+  --accent-border: rgba(233, 30, 99, 0.35);
+  --social-bg: var(--nude-peach);
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --sans: "'Great Vibes', cursive";
+  --heading: "'Great Vibes', cursive";
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  overflow-x: hidden;
+  font-family: "'Great Vibes', cursive";
+}
+
+#root {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select,
+a {
+  font-family: "'Great Vibes', cursive";
+}
+
+h1,
+h2 {
+  /*font-family: var(--heading);*/
+  font-weight: 500;
+  color: var(--text-h);
+  font-family: "'Great Vibes', cursive"
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}
+
+/* Bloom button water-fill effect */
+button,
+.home-cta-button,
+.view-products-button,
+.view-btn,
+.add-cart-btn,
+.add-to-cart-large,
+.delete-btn,
+.order-btn,
+.clear-cart-btn,
+.auth-link-button,
+.auth-form button,
+.bloom-modal-button,
+.login-link {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.4s ease, box-shadow 0.4s ease, transform 0.18s ease; 
+}
+
+button::before,
+.home-cta-button::before,
+.view-products-button::before,
+.view-btn::before,
+.add-cart-btn::before,
+.add-to-cart-large::before,
+.delete-btn::before,
+.order-btn::before,
+.clear-cart-btn::before,
+.auth-link-button::before,
+.auth-form button::before,
+.bloom-modal-button::before,
+.login-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--deep-pink);
+  transition: bottom 0.5s ease;
+  z-index: -1;
+}
+
+button:hover::before,
+.home-cta-button:hover::before,
+.view-products-button:hover::before,
+.view-btn:hover::before,
+.add-cart-btn:hover::before,
+.add-to-cart-large:hover::before,
+.delete-btn:hover::before,
+.order-btn:hover::before,
+.clear-cart-btn:hover::before,
+.auth-link-button:hover::before,
+.auth-form button:hover::before,
+.bloom-modal-button:hover::before,
+.login-link:hover::before {
+  bottom: 0;
+  border-radius: 99px;
+}
+
+button:active::before,
+button:focus-visible::before,
+.home-cta-button:active::before,
+.home-cta-button:focus-visible::before,
+.view-products-button:active::before,
+.view-products-button:focus-visible::before,
+.view-btn:active::before,
+.view-btn:focus-visible::before,
+.add-cart-btn:active::before,
+.add-cart-btn:focus-visible::before,
+.add-to-cart-large:active::before,
+.add-to-cart-large:focus-visible::before,
+.delete-btn:active::before,
+.delete-btn:focus-visible::before,
+.order-btn:active::before,
+.order-btn:focus-visible::before,
+.clear-cart-btn:active::before,
+.clear-cart-btn:focus-visible::before,
+.auth-link-button:active::before,
+.auth-link-button:focus-visible::before,
+.auth-form button:active::before,
+.auth-form button:focus-visible::before,
+.bloom-modal-button:active::before,
+.bloom-modal-button:focus-visible::before,
+.login-link:active::before,
+.login-link:focus-visible::before {
+  bottom: 0;
+  border-radius: 99px;
+}
+
+button:hover,
+.home-cta-button:hover,
+.view-products-button:hover,
+.view-btn:hover,
+.add-cart-btn:hover,
+.add-to-cart-large:hover,
+.delete-btn:hover,
+.order-btn:hover,
+.clear-cart-btn:hover,
+.auth-link-button:hover,
+.auth-form button:hover,
+.bloom-modal-button:hover,
+.login-link:hover {
+  color: white !important;
+  box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
+}
+
+button:active,
+button:focus-visible,
+.home-cta-button:active,
+.home-cta-button:focus-visible,
+.view-products-button:active,
+.view-products-button:focus-visible,
+.view-btn:active,
+.view-btn:focus-visible,
+.add-cart-btn:active,
+.add-cart-btn:focus-visible,
+.add-to-cart-large:active,
+.add-to-cart-large:focus-visible,
+.delete-btn:active,
+.delete-btn:focus-visible,
+.order-btn:active,
+.order-btn:focus-visible,
+.clear-cart-btn:active,
+.clear-cart-btn:focus-visible,
+.auth-link-button:active,
+.auth-link-button:focus-visible,
+.auth-form button:active,
+.auth-form button:focus-visible,
+.bloom-modal-button:active,
+.bloom-modal-button:focus-visible,
+.login-link:active,
+.login-link:focus-visible {
+  color: white !important;
+  box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
+}
+
+button:active,
+.home-cta-button:active,
+.view-products-button:active,
+.view-btn:active,
+.add-cart-btn:active,
+.add-to-cart-large:active,
+.delete-btn:active,
+.order-btn:active,
+.clear-cart-btn:active,
+.auth-link-button:active,
+.auth-form button:active,
+.bloom-modal-button:active,
+.login-link:active {
+  transform: scale(0.96);
+}
+
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .track-order-page {
+    width: min(700px, calc(100% - 28px));
+    padding: 40px 0 56px;
+  }
+
+  .track-order-header h1 {
+    font-size: 36px;
+  }
+
+  .track-order-content {
+    padding: 24px;
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 768px) {
+
+  .track-order-page {
+    width: calc(100% - 24px);
+    padding: 36px 0 50px;
+  }
+
+  .track-order-header {
+    margin-bottom: 30px;
+  }
+
+  .track-order-header h1 {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .track-order-header hr {
+    margin: 24px auto;
+  }
+
+  .track-order-content {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .timeline {
+    padding-left: 26px;
+  }
+
+  .timeline::before {
+    left: 8px;
+  }
+
+  .timeline-marker {
+    width: 18px;
+    height: 18px;
+    left: -26px;
+  }
+
+  .timeline-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .track-order-page {
+    width: calc(100% - 20px);
+    padding: 30px 0 44px;
+  }
+
+  .track-order-header {
+    margin-bottom: 26px;
+  }
+
+  .track-order-header h1 {
+    font-size: 28px;
+  }
+
+  .track-order-header hr {
+    margin: 20px auto;
+  }
+
+  .track-order-content {
+    padding: 18px;
+  }
+
+  .timeline {
+    padding-left: 24px;
+  }
+
+  .timeline::before {
+    left: 7px;
+  }
+
+  .timeline-item {
+    margin-bottom: 24px;
+  }
+
+  .timeline-marker {
+    width: 16px;
+    height: 16px;
+    left: -24px;
+  }
+
+  .timeline-content {
+    padding-bottom: 8px;
+  }
+
+  .timeline-content p {
+    font-size: 0.95rem;
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .track-order-page {
+    width: calc(100% - 16px);
+    padding: 24px 0 36px;
+  }
+
+  .track-order-header h1 {
+    font-size: 24px;
+  }
+
+  .track-order-content {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .timeline {
+    padding-left: 20px;
+  }
+
+  .timeline::before {
+    left: 6px;
+    width: 1.5px;
+  }
+
+  .timeline-marker {
+    width: 14px;
+    height: 14px;
+    left: -20px;
+  }
+
+  .timeline-content p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+} 
+    
+  

@@ -1,0 +1,426 @@
+.auth-page {
+  min-height: calc(80svh - 120px);
+  display: grid;
+  place-items: center;
+  padding: 48px 20px;
+background:
+    radial-gradient(circle at 14% 10%, rgba(248, 200, 208, 0.72), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, var(--light-bg) 52%, var(--primary-pink) 100%);
+  box-sizing: border-box;
+}
+
+.auth-shell {
+  width: min(900px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1.06fr;
+  overflow: hidden;
+  border: 1px solid rgba(124, 66, 48, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 250, 247, 0.9);
+  box-shadow: 0 22px 60px rgba(128, 54, 76, 0.18);
+}
+
+.auth-shell-login {
+  direction: rtl;
+}
+
+.auth-shell-login > * {
+  direction: ltr;
+}
+
+.auth-brand-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  min-height: 520px;
+  padding: 44px;
+  color: var(--text-dark);
+  font-family: "'Great Vibes', cursive";
+  background: var(--nude-peach)
+   ;
+}
+
+.auth-logo {
+  width: 150px;
+  height: auto;
+  align-self: center;
+  filter: drop-shadow(0 12px 22px rgba(72, 35, 27, 0.18));
+}
+
+.auth-brand-panel h1,
+.auth-form h2 {
+  margin: 0;
+  align-items: center;
+  align-self: center;
+  color: var(--text-dark);
+  letter-spacing: 1;
+  font-family: "'Great Vibes', cursive";
+}
+
+.auth-brand-panel h1 {
+  font-size: 33px;
+  font-family: "'Great Vibes', cursive";
+  line-height: 1.05;
+}
+
+.auth-brand-panel p {
+  color: var(--text-dark);
+  font-family: "'Great Vibes', cursive";
+  line-height: 1.6;
+}
+
+.auth-link-button,
+.auth-form button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  border-radius: 25px;
+  font-weight: 500;
+  text-decoration: none;
+  align-self:center;
+  font-family: "'Great Vibes', cursive";
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(233, 30, 99, 0.22);
+}
+
+.auth-link-button {
+  width: fit-content;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  color: var(--deep-pink);
+  background: var(--nude-peach);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  padding: 48px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 249, 0.96)),
+    repeating-linear-gradient(45deg, rgba(244, 179, 197, 0.16) 0 2px, transparent 2px 10px);
+}
+
+.auth-form-header {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.auth-form-logo {
+  width: 84px;
+  height: auto;
+}
+
+.auth-form h2 {
+  font-size: 30px;
+  font-family: "'Great Vibes', cursive";
+}
+
+.auth-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--text-dark);
+  font-size: 15px;
+  font-weight: 200;
+  text-align: left;
+  font-family: "'Great Vibes', cursive";
+}
+
+.auth-form input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(112, 67, 52, 0.18);
+  border-radius: 6px;
+  color: var(--text-light);
+  background: var(--primary-pink);
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.auth-form input:hover{
+  border-color: #d96f91;
+}
+
+.auth-form input:focus {
+  outline: 1px solid var(--deep-pink);
+}
+
+.auth-forgot-link {
+  align-self: flex-end;
+  color: #9b4b63;
+  font-size: 14px;
+  font-weight: 200;
+  font-family: "'Great Vibes', cursive";
+  text-decoration: none;
+}
+
+.auth-forgot-link:hover{
+  color: var(--deep-pink);
+}
+
+.auth-message {
+  color: var(--text-dark);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.auth-form button {
+  border-radius: 20px;
+  width: 170px;
+  
+  color: var(--deep-pink);
+  border: 1px solid var(--primary-pink);
+  background: var(--nude-peach);
+  box-shadow: 0 12px 24px rgba(233, 30, 99, 0.22); 
+   font: inherit;
+  font-family: "'Great Vibes', cursive";
+}
+
+@media (max-width: 760px) {
+  .auth-page {
+    padding: 24px 14px;
+  }
+
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand-panel {
+    min-height: 1;
+    padding: 30px 24px;
+  }
+
+  .auth-brand-panel h1 {
+    font-size: 32px;
+  }
+
+  .auth-form {
+    padding: 32px 24px;
+  }
+}
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .auth-page {
+    padding: 40px 18px;
+  }
+
+  .auth-shell {
+    width: min(850px, 100%);
+  }
+
+  .auth-brand-panel {
+    padding: 38px;
+  }
+
+  .auth-form {
+    padding: 40px;
+  }
+
+  .auth-brand-panel h1 {
+    font-size: 30px;
+  }
+
+  .auth-form h2 {
+    font-size: 28px;
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 768px) {
+
+  .auth-page {
+    padding: 28px 16px;
+  }
+
+  .auth-shell {
+    grid-template-columns: 1fr;
+    border-radius: 20px;
+  }
+
+  .auth-shell-login {
+    direction: ltr;
+  }
+
+  .auth-brand-panel {
+    min-height: auto;
+    padding: 32px 24px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .auth-logo {
+    width: 120px;
+  }
+
+  .auth-brand-panel h1 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .auth-brand-panel p {
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .auth-form {
+    padding: 34px 24px;
+  }
+
+  .auth-form h2 {
+    font-size: 26px;
+  }
+
+  .auth-form-logo {
+    width: 74px;
+  }
+
+  .auth-form input {
+    min-height: 46px;
+  }
+
+  .auth-link-button,
+  .auth-form button {
+    min-height: 44px;
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .auth-page {
+    padding: 22px 14px;
+  }
+
+  .auth-shell {
+    border-radius: 18px;
+  }
+
+  .auth-brand-panel {
+    padding: 28px 20px;
+    gap: 14px;
+  }
+
+  .auth-logo {
+    width: 100px;
+  }
+
+  .auth-brand-panel h1 {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .auth-brand-panel p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .auth-form {
+    padding: 28px 20px;
+    gap: 16px;
+  }
+
+  .auth-form h2 {
+    font-size: 24px;
+  }
+
+  .auth-form label {
+    font-size: 14px;
+  }
+
+  .auth-form input {
+    min-height: 44px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .auth-forgot-link {
+    font-size: 13px;
+  }
+
+  .auth-link-button,
+  .auth-form button {
+    width: 100%;
+    min-height: 44px;
+    font-size: 15px;
+  }
+
+  .auth-message {
+    font-size: 13px;
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .auth-page {
+    padding: 18px 12px;
+  }
+
+  .auth-shell {
+    border-radius: 16px;
+  }
+
+  .auth-brand-panel {
+    padding: 24px 16px;
+  }
+
+  .auth-logo {
+    width: 85px;
+  }
+
+  .auth-brand-panel h1 {
+    font-size: 22px;
+  }
+
+  .auth-brand-panel p {
+    font-size: 14px;
+  }
+
+  .auth-form {
+    padding: 24px 16px;
+  }
+
+  .auth-form-logo {
+    width: 64px;
+  }
+
+  .auth-form h2 {
+    font-size: 22px;
+  }
+
+  .auth-form label {
+    font-size: 13px;
+  }
+
+  .auth-form input {
+    min-height: 42px;
+    font-size: 13px;
+  }
+
+  .auth-link-button,
+  .auth-form button {
+    min-height: 42px;
+    font-size: 14px;
+    border-radius: 18px;
+  }
+
+  .auth-message {
+    font-size: 12px;
+  }
+}

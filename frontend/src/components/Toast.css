@@ -1,0 +1,39 @@
+.bloom-toast-wrapper {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 9999;
+}
+
+.bloom-toast {
+    background: var(--deep-pink);
+    color: #fff;
+    padding: 0.6rem 0.9rem;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    font-weight: 600;
+    transform-origin: right bottom;
+    animation: bloom-toast-in 300ms ease, bloom-toast-out 300ms ease 3s forwards;
+}
+
+@keyframes bloom-toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes bloom-toast-out {
+    to {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+}

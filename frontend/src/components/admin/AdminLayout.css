@@ -1,0 +1,37 @@
+.admin-sidebar-brand {
+  padding: 0 20px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.admin-sidebar-brand img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(233, 30, 99, 0.16));
+}
+
+.admin-sidebar-divider {
+  width: 100%;
+  margin: 0 0 14px;
+  border: 0;
+  border-top: 1px solid rgba(233, 30, 99, 0.16);
+}
+
+.admin-sidebar-nav {
+  margin-bottom: 14px;
+}
+
+.admin-sidebar-nav a:hover {
+  background: var(--nude-peach) !important;
+  color: var(--deep-pink) !important;
+}
+
+.admin-logout.delete-btn {
+  width: 100% !important;
+  min-height: 44px !important;
+  align-self: center;
+  border-radius: 0 !important;
+}

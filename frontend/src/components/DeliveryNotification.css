@@ -1,0 +1,191 @@
+.delivery-notice {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  z-index: 9998;
+  width: min(420px, calc(100% - 28px));
+  padding: 18px 20px 16px;
+  border: 1px solid rgba(233, 30, 99, 0.2);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 241, 243, 0.98));
+  box-shadow: 0 22px 50px rgba(70, 26, 42, 0.2);
+  color: var(--text-dark);
+  text-align: center;
+  transform: translateX(-50%);
+  animation: deliveryNoticeIn 0.28s ease both;
+}
+
+.delivery-notice p {
+  margin-top: 10px;
+  color: #b85c6b;
+  font-family: "'Great Vibes', cursive";
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.delivery-notice-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  color: #b85c6b;
+  background: rgba(255, 241, 243, 0.9);
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.delivery-notice-close::before {
+  display: none;
+}
+
+.delivery-notice-close:hover,
+.delivery-notice-close:focus-visible {
+  color: #b85c6b !important;
+  background: rgba(255, 241, 243, 0.9);
+  box-shadow: none !important;
+}
+
+.delivery-road {
+  position: relative;
+  height: 70px;
+  overflow: hidden;
+}
+
+.delivery-road::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 13px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(233, 30, 99, 0.22), transparent);
+}
+
+.delivery-car {
+  position: absolute;
+  left: -120px;
+  bottom: 13px;
+  width: 108px;
+  height: 44px;
+  animation: deliveryCarDrive 4.8s ease-in-out infinite;
+}
+
+.delivery-car-body {
+  position: absolute;
+  left: 25px;
+  bottom: 8px;
+  width: 66px;
+  height: 28px;
+  border-radius: 8px 12px 8px 8px;
+  background: var(--primary-pink);
+  box-shadow: inset 0 -6px 0 rgba(233, 30, 99, 0.14);
+}
+
+.delivery-car-window {
+  position: absolute;
+  left: 58px;
+  bottom: 23px;
+  width: 22px;
+  height: 13px;
+  border-radius: 8px 8px 2px 2px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.delivery-box {
+  position: absolute;
+  left: 10px;
+  bottom: 16px;
+  width: 28px;
+  height: 24px;
+  border: 1px solid rgba(184, 92, 107, 0.34);
+  border-radius: 5px;
+  background: var(--nude-peach);
+  box-shadow: inset 0 8px 0 rgba(233, 30, 99, 0.08);
+}
+
+.delivery-box::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(184, 92, 107, 0.24);
+}
+
+.delivery-wheel {
+  position: absolute;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  border: 3px solid #b85c6b;
+  border-radius: 50%;
+  background: #fff;
+  animation: deliveryWheelSpin 0.7s linear infinite;
+}
+
+.delivery-wheel-front {
+  right: 17px;
+}
+
+.delivery-wheel-back {
+  left: 32px;
+}
+
+@keyframes deliveryNoticeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+@keyframes deliveryCarDrive {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(520px);
+  }
+}
+
+@keyframes deliveryWheelSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .delivery-notice,
+  .delivery-car,
+  .delivery-wheel {
+    animation: none;
+  }
+
+  .delivery-car {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 520px) {
+  .delivery-notice {
+    bottom: 14px;
+    padding: 16px 16px 14px;
+  }
+
+  .delivery-notice p {
+    font-size: 21px;
+  }
+}

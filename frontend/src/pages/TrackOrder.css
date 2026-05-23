@@ -1,0 +1,409 @@
+.track-order-page {
+  width: min(640px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 44px 0 64px;
+}
+
+.track-order-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.track-order-header h1 {
+  margin: 0 0 12px;
+  color: var(--text-dark);
+  font-size: 40px;
+  letter-spacing: 0;
+}
+
+.track-order-header hr {
+  width: 100%;
+  margin: 30px;
+  justify-content: center;
+  position: center;
+  border: 0;
+  border-top: 2px solid var(--primary-pink);
+}
+
+.track-order-content {
+  padding: 28px;
+  border: 1px solid rgba(233, 30, 99, 0.14);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 16px 34px rgba(233, 30, 99, 0.12);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 30px;
+}
+
+.timeline::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 9px;
+  width: 2px;
+  background: var(--primary-pink);
+  content: "";
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  top: 0;
+  left: -30px;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary-pink);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.timeline-item.completed .timeline-marker {
+  border-color: var(--deep-pink);
+  background: var(--deep-pink);
+}
+
+.timeline-content {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(233, 30, 99, 0.14);
+}
+
+.timeline-content p {
+  margin: 0;
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-family: "'Great Vibes', cursive";
+}
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .track-order-page {
+    width: min(700px, calc(100% - 28px));
+    padding: 40px 0 56px;
+  }
+
+  .track-order-header h1 {
+    font-size: 36px;
+  }
+
+  .track-order-content {
+    padding: 24px;
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 768px) {
+
+  .track-order-page {
+    width: calc(100% - 24px);
+    padding: 36px 0 50px;
+  }
+
+  .track-order-header {
+    margin-bottom: 30px;
+  }
+
+  .track-order-header h1 {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .track-order-header hr {
+    margin: 24px auto;
+  }
+
+  .track-order-content {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .timeline {
+    padding-left: 26px;
+  }
+
+  .timeline::before {
+    left: 8px;
+  }
+
+  .timeline-marker {
+    width: 18px;
+    height: 18px;
+    left: -26px;
+  }
+
+  .timeline-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .track-order-page {
+    width: calc(100% - 20px);
+    padding: 30px 0 44px;
+  }
+
+  .track-order-header {
+    margin-bottom: 26px;
+  }
+
+  .track-order-header h1 {
+    font-size: 28px;
+  }
+
+  .track-order-header hr {
+    margin: 20px auto;
+  }
+
+  .track-order-content {
+    padding: 18px;
+  }
+
+  .timeline {
+    padding-left: 24px;
+  }
+
+  .timeline::before {
+    left: 7px;
+  }
+
+  .timeline-item {
+    margin-bottom: 24px;
+  }
+
+  .timeline-marker {
+    width: 16px;
+    height: 16px;
+    left: -24px;
+  }
+
+  .timeline-content {
+    padding-bottom: 8px;
+  }
+
+  .timeline-content p {
+    font-size: 0.95rem;
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .track-order-page {
+    width: calc(100% - 16px);
+    padding: 24px 0 36px;
+  }
+
+  .track-order-header h1 {
+    font-size: 24px;
+  }
+
+  .track-order-content {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .timeline {
+    padding-left: 20px;
+  }
+
+  .timeline::before {
+    left: 6px;
+    width: 1.5px;
+  }
+
+  .timeline-marker {
+    width: 14px;
+    height: 14px;
+    left: -20px;
+  }
+
+  .timeline-content p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .track-order-page {
+    width: min(700px, calc(100% - 28px));
+    padding: 40px 0 56px;
+  }
+
+  .track-order-header h1 {
+    font-size: 36px;
+  }
+
+  .track-order-content {
+    padding: 24px;
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 768px) {
+
+  .track-order-page {
+    width: calc(100% - 24px);
+    padding: 36px 0 50px;
+  }
+
+  .track-order-header {
+    margin-bottom: 30px;
+  }
+
+  .track-order-header h1 {
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .track-order-header hr {
+    margin: 24px auto;
+  }
+
+  .track-order-content {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .timeline {
+    padding-left: 26px;
+  }
+
+  .timeline::before {
+    left: 8px;
+  }
+
+  .timeline-marker {
+    width: 18px;
+    height: 18px;
+    left: -26px;
+  }
+
+  .timeline-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .track-order-page {
+    width: calc(100% - 20px);
+    padding: 30px 0 44px;
+  }
+
+  .track-order-header {
+    margin-bottom: 26px;
+  }
+
+  .track-order-header h1 {
+    font-size: 28px;
+  }
+
+  .track-order-header hr {
+    margin: 20px auto;
+  }
+
+  .track-order-content {
+    padding: 18px;
+  }
+
+  .timeline {
+    padding-left: 24px;
+  }
+
+  .timeline::before {
+    left: 7px;
+  }
+
+  .timeline-item {
+    margin-bottom: 24px;
+  }
+
+  .timeline-marker {
+    width: 16px;
+    height: 16px;
+    left: -24px;
+  }
+
+  .timeline-content {
+    padding-bottom: 8px;
+  }
+
+  .timeline-content p {
+    font-size: 0.95rem;
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .track-order-page {
+    width: calc(100% - 16px);
+    padding: 24px 0 36px;
+  }
+
+  .track-order-header h1 {
+    font-size: 24px;
+  }
+
+  .track-order-content {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .timeline {
+    padding-left: 20px;
+  }
+
+  .timeline::before {
+    left: 6px;
+    width: 1.5px;
+  }
+
+  .timeline-marker {
+    width: 14px;
+    height: 14px;
+    left: -20px;
+  }
+
+  .timeline-content p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+      

@@ -1,0 +1,272 @@
+.bloom-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(31, 18, 22, 0.58);
+  backdrop-filter: blur(4px);
+  box-sizing: border-box;
+} 
+
+.bloom-modal {
+  position: relative;
+  width: min(430px, 100%);
+  padding: 34px 28px 28px;
+  border: 1px solid rgba(233, 30, 99, 0.18);
+  border-radius: 8px;
+  color: var(--text-dark);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 241, 243, 0.98));
+  box-shadow: 0 28px 70px rgba(70, 26, 42, 0.28);
+  text-align: center;
+  box-sizing: border-box;
+  animation: bloomModalIn 0.24s ease both;
+}
+
+.bloom-modal h2 {
+  margin: 0 0 12px;
+  color: #b85c6b;
+  font-family: "'Great Vibes', cursive";
+  font-size: 34px;
+}
+
+.bloom-modal p {
+  color: #5f3c42;
+  line-height: 1.65;
+}
+
+.bloom-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  color: #b85c6b;
+  background: rgba(255, 241, 243, 0.9);
+  cursor: pointer;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.bloom-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.bloom-modal-button {
+  min-height: 44px;
+  padding: 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--deep-pink), #b9154d);
+  box-shadow: 0 12px 24px rgba(233, 30, 99, 0.22);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bloom-modal-button-soft {
+  color: var(--deep-pink);
+  background: var(--nude-peach);
+  border: 1px solid rgba(233, 30, 99, 0.22);
+  box-shadow: none;
+}
+
+.bloom-policy-modal {
+  width: min(680px, 100%);
+}
+
+.bloom-policy-image {
+  width: 100%;
+  max-height: min(66svh, 680px);
+  object-fit: contain;
+  display: block;
+  margin: 12px auto 20px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+@keyframes bloomModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .bloom-modal-overlay {
+    padding: 18px;
+  }
+
+  .bloom-modal {
+    width: min(500px, 100%);
+    padding: 32px 26px 26px;
+  }
+
+  .bloom-modal h2 {
+    font-size: 32px;
+  }
+
+  .bloom-policy-modal {
+    width: min(760px, 100%);
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 768px) {
+
+  .bloom-modal-overlay {
+    padding: 16px;
+  }
+
+  .bloom-modal {
+    width: min(460px, 100%);
+    padding: 28px 22px 24px;
+    border-radius: 18px;
+  }
+
+  .bloom-modal h2 {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .bloom-modal p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .bloom-modal-close {
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+  }
+
+  .bloom-modal-actions {
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .bloom-modal-button {
+    min-height: 42px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+
+  .bloom-policy-modal {
+    width: 100%;
+  }
+
+  .bloom-policy-image {
+    max-height: 60svh;
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .bloom-modal-overlay {
+    padding: 14px;
+  }
+
+  .bloom-modal {
+    width: 100%;
+    padding: 24px 18px 20px;
+    border-radius: 16px;
+  }
+
+  .bloom-modal h2 {
+    font-size: 24px;
+  }
+
+  .bloom-modal p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .bloom-modal-close {
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    font-size: 22px;
+  }
+
+  .bloom-modal-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bloom-modal-button,
+  .bloom-modal-button-soft {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  .bloom-policy-image {
+    max-height: 52svh;
+    border-radius: 6px;
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .bloom-modal-overlay {
+    padding: 10px;
+  }
+
+  .bloom-modal {
+    padding: 20px 16px 18px;
+    border-radius: 14px;
+  }
+
+  .bloom-modal h2 {
+    font-size: 21px;
+  }
+
+  .bloom-modal p {
+    font-size: 13px;
+  }
+
+  .bloom-modal-close {
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+  }
+
+  .bloom-modal-button {
+    min-height: 40px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+
+  .bloom-policy-image {
+    max-height: 46svh;
+  }
+}

@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Proxy script to route artisan commands to the backend directory
+ */
+
+$backendArtisan = __DIR__ . '/backend/artisan';
+
+if (file_exists($backendArtisan)) {
+    // Change directory to the backend so artisan runs in the correct context
+    chdir(__DIR__ . '/backend');
+    
+    // Pass the arguments and execute the backend artisan
+    require $backendArtisan;
+} else {
+    echo "Error: Backend artisan file not found.\n";
+    exit(1);
+}

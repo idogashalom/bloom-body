@@ -1,0 +1,412 @@
+.contact-page {
+  width: min(1000px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 44px 0 64px;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.contact-header h1 {
+  margin: 0 12 12px;
+  color: var(--text-dark);
+  font-size: 50px;
+  font-family: "'Great Vibes', cursive";
+   font-size: "80px";
+  letter-spacing: 0;
+}
+
+.contact-header p {
+  margin: 0 auto;
+  max-width: 600px;
+  color: var(--text-dark);
+  font-size: 18px;
+  font-family: "'Great Vibes', cursive";
+  line-height: 1.6;
+}
+
+.contact-header hr {
+  width: 100%;
+  border: 0;
+  border-top: 2px solid var(--primary-pink);
+}
+
+.contact-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  gap: 34px;
+  align-items: start;
+}
+
+/*other ways to contact us styling*/
+.contact-form-section,
+.contact-options-section {
+  padding: 30px;
+  border: 1px solid rgba(233, 30, 99, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 16px 34px rgba(233, 30, 99, 0.12);
+
+}
+
+.contact-options-section {
+  align-self: center;
+}
+
+.contact-form-section h2,
+.contact-options-section h2 {
+  margin: 0 0 20px;
+  color: var(--text-dark);
+  font-size: 24px;
+  font-family: "'Great Vibes', cursive";
+  letter-spacing: 0;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid rgba(233, 30, 99, 0.18);
+  border-radius: 8px;
+  color: var(--text-dark);
+  background-color: var(--nude-peach);
+  font: inherit;
+  font-family: "'Great Vibes', cursive";
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--deep-pink);
+  outline: 3px solid rgba(233, 30, 99, 0.16);
+}
+
+.submit-button,
+.social-btn {
+  min-height: 46px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--deep-pink);
+  background: var(--nude-peach);
+  box-shadow: 0 12px 24px rgba(233, 30, 99, 0.22);
+  font: inherit;
+  font-family: "'Great Vibes', cursive";
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.submit-button {
+  padding: 0 24px;
+}
+
+.contact-button-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.social-btn {
+  width: 100%;
+  min-height: 50px;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+  border: 1px solid rgba(233, 30, 99, 0.16);
+  border-radius: 10px;
+  background-color: var(--nude-peach);
+  box-shadow: 0 14px 26px rgba(233, 30, 99, 0.14);
+  color: var(--text-dark);
+  text-align: left;
+  box-sizing: border-box;
+  font-family: "'Great Vibes', cursive";
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.social-btn:hover {
+  box-shadow: 0 18px 34px rgba(233, 30, 99, 0.2);
+  transform: translateY(-2px);
+color: var(--deep-pink) !important;
+}
+
+.social-btn::before {
+  position: static;
+  inset: auto;
+  left: auto;
+  width: 18px;
+  height: auto;
+  background: transparent;
+  transition: none;
+  z-index: auto;
+}
+
+.social-btn:first-child::before {
+  content: "\f232";
+  font-family: "Font Awesome 6 Brands";
+}
+
+.social-btn:nth-child(2)::before {
+  content: "\f16d";
+  font-family: "Font Awesome 6 Brands";
+}
+
+.social-btn:nth-child(3)::before {
+  content: "\f095";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}
+
+@media (max-width: 768px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-section,
+  .contact-options-section {
+    padding: 24px 18px;
+  }
+}
+
+/* =========================
+   RESPONSIVE CSS
+========================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+
+  .contact-page {
+    padding: 40px 20px;
+  }
+
+  .contact-header h1 {
+    font-size: 48px;
+  }
+
+  .contact-header p {
+    font-size: 16px;
+  }
+
+  .contact-content {
+    grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.5fr);
+    gap: 30px;
+  }
+
+  .contact-form-section,
+  .contact-options-section {
+    padding: 28px;
+  }
+
+  .contact-form-section h2,
+  .contact-options-section h2 {
+    font-size: 22px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 11px 12px;
+  }
+
+  .submit-button,
+  .social-btn {
+    min-height: 44px;
+    font-size: 18px;
+  }
+
+  .submit-button {
+    padding: 0 22px;
+  }
+}
+
+
+/* Tablets */
+@media (max-width: 820px) {
+
+  .contact-page {
+    padding: 36px 18px;
+  }
+
+  .contact-header h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+
+  .contact-header p {
+    font-size: 15px;
+  }
+
+  .contact-header hr {
+    margin: 24px 0;
+  }
+
+  .contact-content {
+    grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
+    gap: 26px;
+  }
+
+  .contact-form-section,
+  .contact-options-section {
+    padding: 24px;
+  }
+
+  .contact-form-section h2,
+  .contact-options-section h2 {
+    font-size: 20px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 10px 11px;
+  }
+
+  .submit-button,
+  .social-btn {
+    min-height: 42px;
+    font-size: 17px;
+  }
+
+  .submit-button {
+    padding: 0 20px;
+  }
+
+  .contact-button-list {
+    gap: 12px;
+  }
+
+  .social-btn {
+    min-height: 48px;
+    padding: 0 16px;
+    gap: 6px;
+  }
+}
+
+
+/* Mobile Phones */
+@media (max-width: 620px) {
+
+  .contact-page {
+    padding: 32px 16px;
+  }
+
+  .contact-header h1 {
+    font-size: 36px;
+  }
+
+  .contact-header p {
+    font-size: 14px;
+    max-width: 100%;
+  }
+
+  .contact-header hr {
+    margin: 20px 0;
+  }
+
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .contact-form-section,
+  .contact-options-section {
+    padding: 20px 16px;
+  }
+
+  .contact-form-section h2,
+  .contact-options-section h2 {
+    font-size: 22px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 11px 12px;
+  }
+
+  .submit-button {
+    padding: 0 22px;
+    font-size: 17px;
+  }
+
+  .social-btn {
+    min-height: 46px;
+    font-size: 16px;
+  }
+
+  .social-btn::before {
+    width: 16px;
+  }
+}
+
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .contact-page {
+    padding: 28px 12px;
+  }
+
+  .contact-header h1 {
+    font-size: 32px;
+  }
+
+  .contact-header p {
+    font-size: 13px;
+  }
+
+  .contact-header hr {
+    margin: 16px 0;
+  }
+
+  .contact-form-section,
+  .contact-options-section {
+    padding: 16px 12px;
+    border-radius: 10px;
+  }
+
+  .contact-form-section h2,
+  .contact-options-section h2 {
+    font-size: 20px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 10px 10px;
+    border-radius: 8px;
+  }
+
+  .submit-button,
+  .social-btn {
+    min-height: 40px;
+    padding: 0 18px;
+    font-size: 16px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(233, 30, 99, 0.2);
+  }
+
+  .submit-button {
+    padding: 0 20px;
+  }
+
+  .contact-button-list {
+    gap: 10px;
+  }
+
+  .social-btn {
+    min-height: 44px;
+    padding: 0 14px;
+    gap: 6px;
+    font-size: 15px;
+    border-radius: 10px;
+    box-shadow: 0 12px 22px rgba(233, 30, 99, 0.18);
+  }
+
+  .social-btn::before {
+    width: 14px;
+  }
+}
+  
