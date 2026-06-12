@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\CartItem;
+use App\Models\Payment;
 use App\Models\Product;
 class OrderController extends Controller {
     public function index(Request $request) { return response()->json($request->user()->orders()->with('items.product')->get()); }
@@ -23,6 +24,7 @@ class OrderController extends Controller {
         $data = $request->validate([
             'shipping_address' => 'required|string',
             'delivery_date' => 'nullable|date',
+            'payment_method' => 'nullable|string|in:card,bank',
             'items' => 'nullable|array',
             'items.*.product_id' => 'required_with:items|exists:products,id',
             'items.*.quantity' => 'required_with:items|integer|min:1',
@@ -60,8 +62,15 @@ class OrderController extends Controller {
             $product = $products->get($item['product_id']);
             OrderItem::create(['order_id' => $order->id, 'product_id' => $product->id, 'quantity' => $item['quantity'], 'price' => $product->price]);
         }
+        Payment::create([
+            'order_id' => $order->id,
+            'reference' => 'PAY-' . strtoupper(uniqid()),
+            'gateway' => $data['payment_method'] ?? 'bank',
+            'amount' => $total,
+            'status' => 'Success',
+        ]);
         CartItem::where('user_id', $request->user()->id)->delete();
-        return response()->json($order->load('items.product'));
+        return response()->json($order->load(['items.product', 'payment']));
     }
     public function track(Request $request, $order_number) {
         $order = Order::where('order_number', $order_number)->with('items.product')->firstOrFail();

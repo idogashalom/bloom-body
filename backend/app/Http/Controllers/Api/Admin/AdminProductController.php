@@ -36,6 +36,7 @@ class AdminProductController extends Controller {
             'price' => 'sometimes|required|numeric',
             'stock_quantity' => 'nullable|integer',
             'is_available' => 'boolean',
+            'unavailable_message' => 'nullable|string',
             'is_featured' => 'boolean',
             'image' => 'nullable|string',
             'category_id' => 'nullable|exists:categories,id',

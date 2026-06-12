@@ -50,7 +50,18 @@ export const adminProductsApi = {
 };
 
 export const adminOrdersApi = {
-  getAll: (deliveryDate = "") => request(`/orders${deliveryDate ? `?delivery_date=${encodeURIComponent(deliveryDate)}` : ""}`),
+  getAll: (filters = "") => {
+    if (typeof filters === "string") {
+      return request(`/orders${filters ? `?delivery_date=${encodeURIComponent(filters)}` : ""}`);
+    }
+
+    const params = new URLSearchParams();
+    if (filters.deliveryDate) params.set("delivery_date", filters.deliveryDate);
+    if (filters.status) params.set("status", filters.status);
+    if (filters.paymentMethod) params.set("payment_method", filters.paymentMethod);
+
+    return request(`/orders${params.toString() ? `?${params.toString()}` : ""}`);
+  },
   updateStatus: (id, status) => request(`/orders/${id}/status`, { method: "PUT", body: JSON.stringify({ status }) }),
   scheduleDelivery: (scheduleGroup) => request("/orders/delivery-schedule", { method: "POST", body: JSON.stringify({ schedule_group: scheduleGroup }) }),
 };

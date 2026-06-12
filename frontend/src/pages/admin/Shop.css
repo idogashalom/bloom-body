@@ -1,0 +1,127 @@
+.admin-orders-table-wrap {
+  display: block;
+}
+
+.admin-orders-cards {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .admin-orders-table-wrap {
+    display: none;
+  }
+
+  .admin-orders-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.admin-order-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 14px;
+  cursor: pointer;
+  border: 1px solid rgba(233, 30, 99, 0.08);
+}
+
+.admin-order-card:hover {
+  border-color: rgba(233, 30, 99, 0.2);
+}
+
+.admin-order-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.admin-order-card-id {
+  color: var(--deep-pink);
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.admin-order-card-date {
+  color: #777;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.admin-order-card-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 0;
+  font-size: 14px;
+}
+
+.admin-order-card-label {
+  color: #888;
+  flex-shrink: 0;
+}
+
+.admin-order-card-value {
+  color: var(--text-dark);
+  text-align: right;
+  word-break: break-word;
+}
+
+.admin-order-card-status {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.admin-order-card-status select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid var(--deep-pink);
+  background-color: var(--light-bg);
+  color: var(--deep-pink);
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+}
+
+.admin-order-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-order-modal {
+  width: 100%;
+  max-width: 760px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+@media (max-width: 620px) {
+  .admin-order-modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .admin-order-modal {
+    padding: 18px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    max-height: 92vh;
+  }
+}

@@ -118,6 +118,7 @@ const PaymentSelection = () => {
 
       const order = await ordersApi.createOrder({
         shipping_address: buildShippingAddress(),
+        payment_method: selectedMethod || 'bank',
         items: cart.map((item) => ({
           product_id: item.id,
           quantity: item.quantity,

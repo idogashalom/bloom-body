@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { adminAuthApi } from '../../services/adminApi';
 import Logo from '../../assets/bloom-logo.png';
+import Toast from '../Toast';
 import './AdminLayout.css';
 
 const AdminLayout = () => {
@@ -68,6 +69,7 @@ const AdminLayout = () => {
       <main style={{ flex: 1, padding: '30px', overflowY: 'auto' }}>
         <Outlet />
       </main>
+      <Toast />
     </div>
   );
 };

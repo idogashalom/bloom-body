@@ -142,9 +142,10 @@ export const ShopProvider = ({ children }) => {
     }
 
     if (product.is_available === false) {
+      const message = product.unavailable_message || "This product is currently unavailable at the moment, bestie 💕";
       // notify user via toast event
       try {
-        window.dispatchEvent(new CustomEvent("bloom-toast", { detail: { message: "Item is currently out of stock 💕", duration: 3000 } }));
+        window.dispatchEvent(new CustomEvent("bloom-toast", { detail: { message: message, duration: 3000 } }));
       } catch (e) {
         // ignore if window not available
       }

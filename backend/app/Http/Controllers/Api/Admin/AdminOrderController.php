@@ -6,9 +6,17 @@ use App\Models\Notification;
 use App\Models\Order;
 class AdminOrderController extends Controller {
     public function index(Request $request) {
-        $query = Order::with(['user', 'items.product'])->orderBy('created_at', 'desc');
+        $query = Order::with(['user', 'items.product', 'payment'])->orderBy('created_at', 'desc');
         if ($request->filled('delivery_date')) {
             $query->whereDate('delivery_date', $request->delivery_date);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        if ($request->filled('payment_method')) {
+            $query->whereHas('payment', function ($paymentQuery) use ($request) {
+                $paymentQuery->where('gateway', $request->payment_method);
+            });
         }
         return response()->json($query->get());
     }
@@ -44,6 +52,6 @@ class AdminOrderController extends Controller {
             'type' => 'toast',
             'is_active' => true,
         ]);
-        return response()->json($order->fresh(['user', 'items.product']));
+        return response()->json($order->fresh(['user', 'items.product', 'payment']));
     }
 }

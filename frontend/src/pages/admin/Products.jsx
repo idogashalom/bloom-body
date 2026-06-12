@@ -8,6 +8,7 @@ const emptyForm = {
   price: '',
   stock_quantity: 10,
   is_available: true,
+  unavailable_message: '',
   is_featured: false,
   image: '',
   category_id: '',
@@ -29,6 +30,7 @@ const mockProducts = fallbackProducts.map(p => ({
   price: typeof p.price === 'string' ? parseFloat(p.price.replace(/,/g, '')) : p.price,
   stock_quantity: p.stock_quantity ?? 10,
   is_available: p.is_available !== false,
+  unavailable_message: '',
   is_featured: false,
   image: p.image
 }));
@@ -50,7 +52,7 @@ const Products = () => {
   const fetchProducts = async () => {
     try {
       const data = await adminProductsApi.getAll();
-      if (data && data.length > 0) {
+      if (data) {
         setProducts(data);
       }
     } catch (e) {
@@ -83,6 +85,7 @@ const Products = () => {
       price: product.price || '',
       stock_quantity: product.stock_quantity ?? 0,
       is_available: Boolean(product.is_available),
+      unavailable_message: product.unavailable_message || '',
       is_featured: Boolean(product.is_featured),
       image: product.image || '',
       category_id: product.category_id || '',
@@ -254,6 +257,9 @@ const Products = () => {
                 <input type="checkbox" checked={formData.is_available} onChange={e => setFormData({...formData, is_available: e.target.checked})} />
                 Available
               </label>
+              {!formData.is_available && (
+                <input type="text" placeholder="Custom unavailable message (optional)" value={formData.unavailable_message} onChange={e => setFormData({...formData, unavailable_message: e.target.value})} style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} />
+              )}
               <label style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-dark)' }}>
                 <input type="checkbox" checked={formData.is_featured} onChange={e => setFormData({...formData, is_featured: e.target.checked})} />
                 Featured Product
