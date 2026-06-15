@@ -1,15 +1,24 @@
 <?php
+
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\CartItem;
 use App\Models\Payment;
 use App\Models\Product;
-class OrderController extends Controller {
-    public function index(Request $request) { return response()->json($request->user()->orders()->with('items.product')->get()); }
-    public function deliveryToday(Request $request) {
+use Illuminate\Http\Request;
+
+class OrderController extends Controller
+{
+    public function index(Request $request)
+    {
+        return response()->json($request->user()->orders()->with('items.product')->get());
+    }
+
+    public function deliveryToday(Request $request)
+    {
         $orders = $request->user()
             ->orders()
             ->with('items.product')
@@ -20,15 +29,25 @@ class OrderController extends Controller {
 
         return response()->json($orders);
     }
-    public function store(Request $request) {
-        $data = $request->validate([
-            'shipping_address' => 'required|string',
-            'delivery_date' => 'nullable|date',
-            'payment_method' => 'nullable|string|in:card,bank',
-            'items' => 'nullable|array',
-            'items.*.product_id' => 'required_with:items|exists:products,id',
-            'items.*.quantity' => 'required_with:items|integer|min:1',
-        ]);
+
+    public function store(Request $request)
+    {
+        $data = $request->validate(
+            [
+                'shipping_address' => 'required|string',
+                'delivery_date' => 'nullable|date',
+                'payment_method' => 'nullable|string|in:card,bank',
+                'items' => 'nullable|array',
+                'items.*.product_id' => 'required_with:items|exists:products,id',
+                'items.*.quantity' => 'required_with:items|integer|min:1',
+            ],
+            [
+                'shipping_address.required' => 'Please enter your delivery address.',
+                'payment_method.in' => 'Please select a valid payment method.',
+                'items.*.product_id.exists' => 'A product in your cart is no longer available. Please refresh your cart.',
+                'items.*.quantity.min' => 'Product quantity must be at least one.',
+            ]
+        );
 
         $items = collect($data['items'] ?? []);
         if ($items->isEmpty()) {
@@ -37,43 +56,48 @@ class OrderController extends Controller {
                 ->get()
                 ->map(fn ($item) => ['product_id' => $item->product_id, 'quantity' => $item->quantity]);
         }
-        if ($items->isEmpty()) return response()->json(['message' => 'Cart is empty'], 400);
+        if ($items->isEmpty()) {
+            return response()->json(['message' => 'Cart is empty'], 400);
+        }
 
         $products = Product::whereIn('id', $items->pluck('product_id'))->get()->keyBy('id');
         foreach ($items as $item) {
             $product = $products->get($item['product_id']);
             if (! $product || ! $product->is_available) {
-                return response()->json(['message' => ($product?->name ?? 'A product') . ' is currently unavailable.'], 422);
+                return response()->json(['message' => ($product?->name ?? 'A product').' is currently unavailable.'], 422);
             }
         }
 
-        $total = $items->sum(function($item) use ($products) {
+        $total = $items->sum(function ($item) use ($products) {
             return $item['quantity'] * $products->get($item['product_id'])->price;
         });
         $order = Order::create([
             'user_id' => $request->user()->id,
-            'order_number' => 'ORD-' . strtoupper(uniqid()),
+            'order_number' => 'ORD-'.strtoupper(uniqid()),
             'total_amount' => $total,
             'shipping_address' => $data['shipping_address'],
             'delivery_date' => $data['delivery_date'] ?? null,
         ]);
-        
+
         foreach ($items as $item) {
             $product = $products->get($item['product_id']);
             OrderItem::create(['order_id' => $order->id, 'product_id' => $product->id, 'quantity' => $item['quantity'], 'price' => $product->price]);
         }
         Payment::create([
             'order_id' => $order->id,
-            'reference' => 'PAY-' . strtoupper(uniqid()),
+            'reference' => 'PAY-'.strtoupper(uniqid()),
             'gateway' => $data['payment_method'] ?? 'bank',
             'amount' => $total,
-            'status' => 'Success',
+            'status' => 'Pending',
         ]);
-        CartItem::where('user_id', $request->user()->id)->delete();
+
         return response()->json($order->load(['items.product', 'payment']));
     }
-    public function track(Request $request, $order_number) {
+
+    public function track(Request $request, $order_number)
+    {
         $order = Order::where('order_number', $order_number)->with('items.product')->firstOrFail();
+
         return response()->json($order);
     }
 }

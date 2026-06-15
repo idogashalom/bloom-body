@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/bloom-logo.png";
 import { useShop } from "../context/ShopContext";
+import PasswordInput from "./PasswordInput";
 import "./Auth.css";
 
 //this is the login component
@@ -57,7 +58,7 @@ function Login() {
 
           <label>
             Password
-            <input type="password" name="password" placeholder="Your password" required />
+            <PasswordInput name="password" placeholder="Your password" required />
           </label>
 
           <a className="auth-forgot-link" href="#">

@@ -22,7 +22,8 @@ import './App.css'
 // Admin imports
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminLogin from "./pages/admin/AdminLogin";
-import Dashboard from "./pages/admin/Dashboard";
+import AdminDashboard from "./pages/admin/Dashboard";
+import UserDashboard from "./pages/Dashboard";
 import Products from "./pages/admin/Products";
 import Notifications from "./pages/admin/Notifications";
 import Shop from "./pages/admin/Shop";
@@ -36,7 +37,7 @@ function App() {
             {/* Admin Routes (Standalone, without standard Navbar/Footer) */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="products" element={<Products />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="shop" element={<Shop />} />
@@ -60,6 +61,7 @@ function App() {
                       <Route path='/product/:id' element={<ProductDetails />} />
                       <Route path='/payment' element={<PaymentSelection />} />
                       <Route path='/track-order' element={<TrackOrder />} />
+                      <Route path='/dashboard' element={<UserDashboard />} />
                     </Routes>
                   </main>
                   <Footer />

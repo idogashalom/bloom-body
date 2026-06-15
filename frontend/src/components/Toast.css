@@ -15,6 +15,7 @@
     border-radius: 999px;
     box-shadow: var(--shadow);
     font-weight: 600;
+    white-space: pre-line;
     transform-origin: right bottom;
     animation: bloom-toast-in 300ms ease, bloom-toast-out 300ms ease 3s forwards;
 }

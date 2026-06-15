@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/bloom-logo.png";
 import { useShop } from "../context/ShopContext";
+import PasswordInput from "./PasswordInput";
 import "./Auth.css";
 
 //this is the function that handles the registration
@@ -63,7 +64,7 @@ function Register() {
 
           <label>
             Password
-            <input type="password" name="password" placeholder="Create a password" minLength="6" required />
+            <PasswordInput name="password" placeholder="Create a password" minLength="6" required />
           </label>
 
           {message && <p className="auth-message">{message}</p>}

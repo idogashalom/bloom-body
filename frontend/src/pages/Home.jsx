@@ -178,7 +178,7 @@ const Home = () => {
           <h1 className="bloom-title" style={{ fontFamily: "'Great Vibes', cursive", fontSize: "60px", color: "#b85c6b" }}>
             <img src={Leaf} alt="Leaf" />
             The Bloom Body
-            </h1>
+          </h1>
           <p>
             Discover your journey to a healthier, fuller you with soft,
             confidence-building body care.
@@ -187,7 +187,7 @@ const Home = () => {
             View products
           </Link>
           <Link className="home-cta-button" to="/testimonials" style={{ marginLeft: "10px", border: " border: 1px solid rgba(233, 30, 99, 0.22);" }} >
-          Testimonials
+            Testimonials
           </Link>
         </div>
 
@@ -202,14 +202,14 @@ const Home = () => {
 
         <div className="feature-carousel-container">
           {/* This map handles the display of the products on the homepage */}
-          <div 
-            className="feature-carousel-track" 
-            style={{ 
+          <div
+            className="feature-carousel-track"
+            style={{
               transform: `translateX(calc(-100% / var(--items-per-page) * ${currentFeatureSlide}))`,
               transition: isTransitioning ? 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)' : 'none'
             }}
-          > 
-            {/* This map handles the display of the products on the homepage */ }
+          >
+            {/* This map handles the display of the products on the homepage */}
             {extendedProducts.map((product, idx) => (
               <div className="feature-slide" key={`${product.id}-${idx}`}>
                 <div className="feature-card">
@@ -240,9 +240,15 @@ const Home = () => {
                       >
                         View
                       </Link>
-                      <button className="add-cart-btn" onClick={() => addToCart(product)} aria-disabled={product.is_available === false}>
-                        {product.is_available === false ? 'Unavailable' : 'Add to cart'}
-                      </button>
+                      {product.is_available === false ? (
+                        <p className="feature-unavailable-message" style={{ color: 'var(--deep-pink)', fontSize: '0.95rem', margin: 0 }}>
+                          {product.unavailable_message || 'This product is unavailable at the moment'}
+                        </p>
+                      ) : (
+                        <button className="add-cart-btn" onClick={() => addToCart(product)}>
+                          Add to cart
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -250,10 +256,10 @@ const Home = () => {
             ))}
           </div>
           <div className="feature-carousel-dots">
-            
+
             {featuredProducts.map((_, idx) => (
-              <button 
-                key={idx} 
+              <button
+                key={idx}
                 className={`dot ${currentFeatureSlide % featuredProducts.length === idx ? 'active' : ''}`}
                 onClick={() => handleDotClick(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
@@ -277,8 +283,8 @@ const Home = () => {
         <div className="testimonial-grid">
           {customerTestimonials.map((testimonial, index) => (
 
-            <div 
-              className={`testimonial-card ${index === activeIndex ? "is-active" : ""}`} 
+            <div
+              className={`testimonial-card ${index === activeIndex ? "is-active" : ""}`}
               key={`${testimonial}-${index}`}
             >
               <p>{testimonial}</p>

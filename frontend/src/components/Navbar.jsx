@@ -9,7 +9,7 @@ const Navbar = () => {
   const { cartCount, isLoggedIn, logout } = useShop();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-//this is the function that closes the menu
+  //this is the function that closes the menu
   const closeMenu = () => setIsMenuOpen(false);
 
   //this is the function that handles the logout
@@ -45,6 +45,7 @@ const Navbar = () => {
           <NavLink to="/about" onClick={closeMenu}>About</NavLink>
           <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
           <NavLink to="/product" onClick={closeMenu}>Shop</NavLink>
+          <NavLink to="/dashboard" onClick={closeMenu}>Dashboard</NavLink>
         </div>
         <div className={`navbar-actions ${isMenuOpen ? "is-open" : ""}`}>
           <NavLink className="cart-link" to="/cart" aria-label="Cart" onClick={closeMenu}>

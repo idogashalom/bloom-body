@@ -3,29 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 
-if (! function_exists('bloom_asset_response')) {
-    function bloom_asset_response(string $file)
-    {
-        $types = [
-            'css' => 'text/css',
-            'js' => 'application/javascript',
-            'svg' => 'image/svg+xml',
-            'jpg' => 'image/jpeg',
-            'jpeg' => 'image/jpeg',
-            'png' => 'image/png',
-            'webp' => 'image/webp',
-            'woff' => 'font/woff',
-            'woff2' => 'font/woff2',
-        ];
-
-        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-
-        return Response::make(file_get_contents($file), 200, [
-            'Content-Type' => $types[$extension] ?? 'application/octet-stream',
-        ]);
-    }
-}
-
 Route::get('/', function () {
     return file_get_contents(base_path('../frontend/dist/index.html'));
 });
@@ -35,7 +12,23 @@ Route::get('/assets/{path}', function (string $path) {
 
     abort_unless(file_exists($file), 404);
 
-    return bloom_asset_response($file);
+    $types = [
+        'css' => 'text/css',
+        'js' => 'application/javascript',
+        'svg' => 'image/svg+xml',
+        'jpg' => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'png' => 'image/png',
+        'webp' => 'image/webp',
+        'woff' => 'font/woff',
+        'woff2' => 'font/woff2',
+    ];
+
+    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+    return Response::make(file_get_contents($file), 200, [
+        'Content-Type' => $types[$extension] ?? 'application/octet-stream',
+    ]);
 })->where('path', '.*');
 
 Route::get('/{file}', function (string $file) {
@@ -43,7 +36,23 @@ Route::get('/{file}', function (string $file) {
 
     abort_unless(file_exists($path), 404);
 
-    return bloom_asset_response($path);
+    $types = [
+        'css' => 'text/css',
+        'js' => 'application/javascript',
+        'svg' => 'image/svg+xml',
+        'jpg' => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'png' => 'image/png',
+        'webp' => 'image/webp',
+        'woff' => 'font/woff',
+        'woff2' => 'font/woff2',
+    ];
+
+    $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+    return Response::make(file_get_contents($path), 200, [
+        'Content-Type' => $types[$extension] ?? 'application/octet-stream',
+    ]);
 })->where('file', 'favicon\.svg|icons\.svg');
 
 // Legacy Blade admin routes kept available without overriding the React admin dashboard.

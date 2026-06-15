@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PasswordInput from '../../components/PasswordInput';
 import { adminAuthApi } from '../../services/adminApi';
 
 const AdminLogin = () => {
@@ -37,7 +38,12 @@ const AdminLogin = () => {
           </div>
           <div>
             <label style={{ display: 'block', marginBottom: '5px', color: 'var(--text-dark)' }}>Password</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc', outline: 'none' }} />
+            <PasswordInput
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              inputStyle={{ width: '100%', padding: '10px 46px 10px 10px', borderRadius: '5px', border: '1px solid #ccc', outline: 'none' }}
+            />
           </div>
           <button type="submit" className="view-btn" style={{ padding: '12px', border: 'none', backgroundColor: 'var(--deep-pink)', color: '#fff', borderRadius: '8px', cursor: 'pointer', fontSize: '18px', marginTop: '10px' }}>
             Secure Login

@@ -77,9 +77,15 @@ const Product = () => {
                 >
                   View
                 </Link>
-                <button className="add-cart-btn" type="button" onClick={() => addToCart(product)} aria-disabled={product.is_available === false}>
-                  {product.is_available === false ? 'Unavailable' : 'Add to cart'}
-                </button>
+                {product.is_available === false ? (
+                  <p className="product-unavailable-message" style={{ color: 'var(--deep-pink)', fontSize: '0.95rem', margin: 0 }}>
+                    {product.unavailable_message || 'This product is unavailable at the moment'}
+                  </p>
+                ) : (
+                  <button className="add-cart-btn" type="button" onClick={() => addToCart(product)}>
+                    Add to cart
+                  </button>
+                )}
               </div>
             </div>
           </div>

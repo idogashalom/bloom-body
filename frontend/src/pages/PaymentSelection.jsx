@@ -1,7 +1,9 @@
-import React, { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
+import { FLUTTERWAVE_PAYMENT_URL } from '../config/payment';
 import { ordersApi } from '../services/api';
+import { toast } from '../utils/toast';
 import './PaymentSelection.css';
 
 const deliveryStates = {
@@ -34,13 +36,24 @@ const readSavedAddress = (user) => {
   }
 };
 
+const readPendingOrder = () => {
+  try {
+    const pendingOrder = localStorage.getItem('bloomPendingOrder');
+    return pendingOrder ? JSON.parse(pendingOrder) : null;
+  } catch {
+    return null;
+  }
+};
+
 // This creates a React functional component called PaymentSelection
 // This component is a React component that allows users to select a payment method for their Bloom Body order
 const PaymentSelection = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { cart, clearCart, currentUser } = useShop();
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const returnHandled = useRef(false);
   const savedAddress = useMemo(() => readSavedAddress(currentUser), [currentUser]);
   const [deliveryAddress, setDeliveryAddress] = useState(() => ({
     ...emptyDeliveryAddress,
@@ -48,6 +61,42 @@ const PaymentSelection = () => {
     ...savedAddress,
     savePreference: savedAddress ? 'permanent' : 'temporary',
   }));
+
+  useEffect(() => {
+    if (returnHandled.current) return;
+
+    const status = (searchParams.get('status') || '').toLowerCase();
+    if (!status) return;
+
+    returnHandled.current = true;
+    const pendingOrder = readPendingOrder();
+    const successfulStatuses = ['successful', 'success', 'completed'];
+    const cancelledStatuses = ['cancelled', 'canceled', 'failed'];
+
+    if (successfulStatuses.includes(status)) {
+      if (pendingOrder?.orderNumber) {
+        localStorage.setItem('bloomLastOrderNumber', pendingOrder.orderNumber);
+      }
+      localStorage.removeItem('bloomPendingOrder');
+      clearCart();
+      toast(
+        'Payment successful! 💕\nThank you for shopping with Bloom Body. Your order is being processed.',
+        5000
+      );
+
+      const trackingPath = pendingOrder?.orderNumber
+        ? `/track-order?order=${encodeURIComponent(pendingOrder.orderNumber)}`
+        : '/track-order';
+      const redirectTimer = window.setTimeout(() => navigate(trackingPath, { replace: true }), 1800);
+      return () => window.clearTimeout(redirectTimer);
+    }
+
+    if (cancelledStatuses.includes(status)) {
+      toast('Payment was cancelled. You can complete your order anytime, bestie 💕', 5000);
+      setSearchParams({}, { replace: true });
+    }
+  }, [clearCart, navigate, searchParams, setSearchParams]);
+
 // This function handles the selection of a payment method
   const handleMethodSelect = (method) => {
     // Updates the selectedMethod state with the chosen method
@@ -94,16 +143,20 @@ const PaymentSelection = () => {
     return '';
   };
 
-// This function handles the card payment
-  const createBackendOrder = async () => {
+  const proceedToFlutterwave = async () => {
     if (cart.length === 0) {
-      navigate('/track-order');
+      toast('Your cart is empty.');
+      return;
+    }
+
+    if (!selectedMethod) {
+      toast('Please select a payment method.');
       return;
     }
 
     const validationError = validateDeliveryAddress();
     if (validationError) {
-      alert(validationError);
+      toast(validationError);
       return;
     }
 
@@ -116,37 +169,40 @@ const PaymentSelection = () => {
         localStorage.removeItem(storageKey);
       }
 
-      const order = await ordersApi.createOrder({
-        shipping_address: buildShippingAddress(),
-        payment_method: selectedMethod || 'bank',
-        items: cart.map((item) => ({
+      const shippingAddress = buildShippingAddress();
+      const items = cart.map((item) => ({
           product_id: item.id,
           quantity: item.quantity,
-        })),
+      }));
+      const checkoutSignature = JSON.stringify({
+        shippingAddress,
+        paymentMethod: selectedMethod,
+        items,
       });
+      const pendingOrder = readPendingOrder();
+      let order = pendingOrder?.signature === checkoutSignature
+        ? { order_number: pendingOrder.orderNumber }
+        : null;
+
+      if (!order) {
+        order = await ordersApi.createOrder({
+          shipping_address: shippingAddress,
+          payment_method: selectedMethod,
+          items,
+        });
+      }
+
       localStorage.setItem('bloomLastOrderNumber', order.order_number);
-      clearCart();
-      navigate(`/track-order?order=${encodeURIComponent(order.order_number)}`);
+      localStorage.setItem('bloomPendingOrder', JSON.stringify({
+        orderNumber: order.order_number,
+        signature: checkoutSignature,
+      }));
+      window.location.assign(FLUTTERWAVE_PAYMENT_URL);
     } catch (error) {
-      alert(error.message);
+      toast(error.message);
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const handleCardPayment = () => {
-    createBackendOrder();
-  };
-
-// This function handles the bank transfer
-  const handleBankTransfer = () => {
-    createBackendOrder();
-  };
-
-  // This function handles the copying of the account number to the clipboard
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText('0123456789');
-    alert('Account number copied to clipboard!');
   };
 
   return (
@@ -271,7 +327,7 @@ const PaymentSelection = () => {
           className={`payment-option ${selectedMethod === 'card' ? 'selected' : ''}`}
           onClick={() => handleMethodSelect('card')}
         >
-         
+          <i className="payment-icon fa-solid fa-credit-card" aria-hidden="true" />
           <div className="payment-info">
             <h2>Pay with Card</h2>
             <p>Fast, secure online payment</p>
@@ -282,7 +338,7 @@ const PaymentSelection = () => {
           className={`payment-option ${selectedMethod === 'bank' ? 'selected' : ''}`}
           onClick={() => handleMethodSelect('bank')}
         >
-         
+          <i className="payment-icon fa-solid fa-building-columns" aria-hidden="true" />
           <div className="payment-info">
             <h2>Bank Transfer</h2>
             <p>Transfer directly to our account</p>
@@ -291,41 +347,10 @@ const PaymentSelection = () => {
       </div>
 
       <div className="payment-details-container">
-        {selectedMethod === 'card' && (
-          <div className="payment-details card-details">
-            <button className="confirm-payment-btn" onClick={handleCardPayment} disabled={submitting}>
-              {submitting ? 'Processing...' : 'Pay with Card'}
-            </button>
-          </div>
-        )}
-
-        {selectedMethod === 'bank' && (
-          <div className="payment-details bank-details">
-            <div className="bank-info-card">
-              <div className="bank-info-row">
-                <span className="bank-label">Bank Name:</span>
-                <span className="bank-value">Bloom Bank</span>
-              </div>
-              <div className="bank-info-row">
-                <span className="bank-label">Account Name:</span>
-                <span className="bank-value">Bloom Body Beauty</span>
-              </div>
-              <div className="bank-info-row">
-                <span className="bank-label">Account Number:</span>
-                <span className="bank-value account-number">0123456789</span>
-                <button className="copy-btn" onClick={copyToClipboard} title="Copy Account Number">
-                  <i className='fa fa-copy'/> Copy
-                </button>
-              </div>
-            </div>
-            
-            <div className="upload-proof-section">
-              <label htmlFor="payment-proof">Upload Payment Proof:</label>
-              <input type="file" id="payment-proof" className="file-input" accept="image/*,application/pdf" />
-            </div>
-
-            <button className="confirm-payment-btn" onClick={handleBankTransfer} disabled={submitting}>
-              {submitting ? 'Processing...' : 'Confirm Payment'}
+        {selectedMethod && (
+          <div className="payment-details">
+            <button className="confirm-payment-btn" onClick={proceedToFlutterwave} disabled={submitting}>
+              {submitting ? 'Processing...' : 'Proceed to Payment'}
             </button>
           </div>
         )}
