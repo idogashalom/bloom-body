@@ -187,6 +187,9 @@
 }
 
 @media (max-width: 768px) {
+  .cart-link {
+    display: none !important;
+  }
   .navbar {
     padding: 10px 12px;
   }

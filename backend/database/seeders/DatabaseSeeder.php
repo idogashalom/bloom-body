@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductSeeder::class);
 
         Admin::firstOrCreate(
-            ['email' => 'admin@bloombody.com'],
+            ['email' => 'stephanieabang260@gmail.com'],
             [
-                'name' => 'Bloom Body Admin',
+                'name' => 'Stephanie Abang',
                 'password' => Hash::make('password123'),
             ]
         );

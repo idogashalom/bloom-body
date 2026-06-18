@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { authApi } from "../services/api";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { authApi, productsApi } from "../services/api";
+import { isProductAvailable, normalizeProduct } from "../utils/productMapper";
 
 const ShopContext = createContext(null);
 //this is the function that reads from the local storage  
@@ -70,6 +71,39 @@ export const ShopProvider = ({ children }) => {
   //this is the function that saves the reviews to the local storage 
   useEffect(() => localStorage.setItem("bloomReviews", JSON.stringify(reviews)), [reviews]);
 
+  const syncCartAvailability = useCallback(async () => {
+    try {
+      const data = await productsApi.getAll();
+      const productMap = new Map(
+        data.map((product) => [Number(product.id), normalizeProduct(product)])
+      );
+
+      setCart((items) => {
+        if (items.length === 0) return items;
+
+        return items.map((item) => {
+          const latest = productMap.get(Number(item.id));
+          if (!latest) return item;
+
+          return {
+            ...item,
+            is_available: latest.is_available,
+            unavailable_message: latest.unavailable_message,
+            price: latest.price,
+            title: latest.title || item.title,
+            name: latest.name || item.name,
+          };
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    syncCartAvailability();
+  }, [syncCartAvailability]);
+
   //this is the function that registers a new user
   const register = async ({ name, email, password }) => {
     //this is the function that cleans the email 
@@ -122,6 +156,29 @@ export const ShopProvider = ({ children }) => {
     setCurrentUser(null);
   };
 
+  const updateProfile = async ({ name, email, currentPassword, newPassword, confirmPassword }) => {
+    try {
+      const payload = {
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+      };
+
+      if (currentPassword || newPassword || confirmPassword) {
+        payload.current_password = currentPassword;
+        payload.password = newPassword;
+        payload.password_confirmation = confirmPassword;
+      }
+
+      const data = await authApi.updateProfile(payload);
+      const user = data.user;
+      setUsers((existingUsers) => [...existingUsers.filter((item) => item.id !== user.id), user]);
+      setCurrentUser(user);
+      return { ok: true, message: data.message || "Profile updated successfully." };
+    } catch (error) {
+      return { ok: false, message: error.message };
+    }
+  };
+
   //this is the function that requests the user to log in or register
   const requestAuth = () => {
     setAuthPromptOpen(true);
@@ -141,7 +198,7 @@ export const ShopProvider = ({ children }) => {
       return requestAuth();
     }
 
-    if (product.is_available === false) {
+    if (!isProductAvailable(product)) {
       const message = product.unavailable_message || "This product is currently unavailable at the moment, bestie 💕";
       // notify user via toast event
       try {
@@ -164,15 +221,28 @@ export const ShopProvider = ({ children }) => {
       //this is the function that adds the product to the cart
       return [...items, { ...product, quantity }];
     });
+    // Dispatch toast event
+    try {
+      window.dispatchEvent(
+        new CustomEvent("bloom-toast", {
+          detail: { message: "Product has been added to cart", duration: 3000 },
+        })
+      );
+    } catch (e) {
+      // ignore
+    }
     //this is the function that returns true if the product is added to the cart
     return true;
   };
 
   //this is the function that increases the quantity of the product in the cart
   const increaseQuantity = (id) => {
-    //this is the function that updates the quantity of the product in the cart
     setCart((items) =>
-      items.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item))
+      items.map((item) => {
+        if (item.id !== id) return item;
+        if (!isProductAvailable(item)) return item;
+        return { ...item, quantity: item.quantity + 1 };
+      })
     );
   };
 
@@ -271,6 +341,7 @@ export const ShopProvider = ({ children }) => {
     login,
     register,
     logout,
+    updateProfile,
     cart,
     cartCount,
     cartTotal,
@@ -279,6 +350,7 @@ export const ShopProvider = ({ children }) => {
     reduceQuantity,
     removeFromCart,
     clearCart,
+    syncCartAvailability,
     canCheckout,
     policyAgreed,
     agreeToPolicy,

@@ -17,12 +17,19 @@ class AdminProductController extends Controller {
             'price' => 'required|numeric',
             'stock_quantity' => 'nullable|integer',
             'is_available' => 'boolean',
+            'unavailable_message' => 'nullable|string',
             'is_featured' => 'boolean',
             'image' => 'nullable|string',
             'category_id' => 'nullable|exists:categories,id',
             'category_name' => 'nullable|string|max:255'
         ]);
         $data = $this->applyCategory($data);
+        if ($request->has('is_available')) {
+            $data['is_available'] = $request->boolean('is_available');
+        }
+        if ($request->has('is_featured')) {
+            $data['is_featured'] = $request->boolean('is_featured');
+        }
         $data['slug'] = Str::slug($data['name']) . '-' . uniqid();
         $data['stock_quantity'] = $data['stock_quantity'] ?? 0;
         return response()->json(Product::create($data));
@@ -43,6 +50,12 @@ class AdminProductController extends Controller {
             'category_name' => 'nullable|string|max:255'
         ]);
         $data = $this->applyCategory($data);
+        if ($request->has('is_available')) {
+            $data['is_available'] = $request->boolean('is_available');
+        }
+        if ($request->has('is_featured')) {
+            $data['is_featured'] = $request->boolean('is_featured');
+        }
         if (isset($data['name'])) {
             $data['slug'] = Str::slug($data['name']) . '-' . $product->id;
         }

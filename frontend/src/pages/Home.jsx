@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Hero3D from "../components/Hero3D";
 import Logo from "../assets/bloom-logo.png";
@@ -7,7 +7,7 @@ import Leaf from "../assets/leaf.jpeg";
 import { products as fallbackProducts } from "../data/products";
 import { useShop } from "../context/ShopContext";
 import { productsApi } from "../services/api";
-import { normalizeProduct } from "../utils/productMapper";
+import { normalizeProduct, isProductAvailable } from "../utils/productMapper";
 
 // This is just dummy testimonials that will be changed later
 const testimonials = [
@@ -29,7 +29,25 @@ const savedLikes = () => JSON.parse(localStorage.getItem("bloomTestimonialLikes"
 const savedLikedState = () => JSON.parse(localStorage.getItem("bloomLikedTestimonials") || "{}");
 
 const Home = () => {
-  const { addToCart } = useShop(); // Accesses the addToCart function from the shop context
+  const { addToCart, cartCount } = useShop(); // Accesses the addToCart function from the shop context
+  const navigate = useNavigate();
+  const [bouncingProductId, setBouncingProductId] = useState(null);
+  const [addedProductId, setAddedProductId] = useState(null);
+
+  const handleAddToCart = (product) => {
+    const success = addToCart(product);
+    if (success) {
+      setBouncingProductId(product.id);
+      setAddedProductId(product.id);
+      setTimeout(() => {
+        setBouncingProductId(null);
+      }, 500);
+      setTimeout(() => {
+        setAddedProductId(null);
+      }, 800);
+    }
+  };
+
   const [customerTestimonials, setCustomerTestimonials] = useState(savedTestimonials); // Saves the customer testimonials   
   const [testimonialLikes, setTestimonialLikes] = useState(savedLikes); // Saves the testimonial likes
   const [likedTestimonials, setLikedTestimonials] = useState(savedLikedState); // Saves the liked testimonials
@@ -186,7 +204,7 @@ const Home = () => {
           <Link className="home-cta-button" to="/product">
             View products
           </Link>
-          <Link className="home-cta-button" to="/testimonials" style={{ marginLeft: "10px", border: " border: 1px solid rgba(233, 30, 99, 0.22);" }} >
+          <Link className="home-cta-button" to="/" style={{ marginLeft: "10px", border: " border: 1px solid rgba(233, 30, 99, 0.22);" }} >
             Testimonials
           </Link>
         </div>
@@ -212,7 +230,15 @@ const Home = () => {
             {/* This map handles the display of the products on the homepage */}
             {extendedProducts.map((product, idx) => (
               <div className="feature-slide" key={`${product.id}-${idx}`}>
-                <div className="feature-card">
+                <div 
+                  className="feature-card" 
+                  onClick={() => {
+                    if (window.innerWidth <= 768) {
+                      navigate(`/product/${product.id}`);
+                    }
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
                   <img src={product.image} alt={product.title} />
                   <div className="feature-info">
                     <h3 className="feature-name">{product.title}</h3>
@@ -221,33 +247,44 @@ const Home = () => {
                       {renderProductStars(savedRatings[product.id] || 0)}
                     </div>
                     <p className="feature-price">NGN {product.price}</p>
-                    {product.is_available === false && (
-                      <p className="feature-price" style={{ color: 'var(--deep-pink)', fontSize: '0.95rem' }}>Unavailable</p>
+                    { !isProductAvailable(product) && (
+                      <p className="feature-price" style={{ color: 'var(--deep-pink)', fontSize: '0.95rem' }}>Currently unavailable</p>
                     )}
                     {/*This handles the view and add to cart buttons */}
                     <div className="feature-actions">
                       <Link
                         to={`/product/${product.id}`}
                         className="view-btn"
-                        onClick={(event) => {
-                          if (product.is_available === false) {
-                            event.preventDefault();
-                            try {
-                              window.dispatchEvent(new CustomEvent("bloom-toast", { detail: { message: "This product is currently unavailable 💕", duration: 3000 } }));
-                            } catch (error) { }
-                          }
-                        }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         View
                       </Link>
-                      {product.is_available === false ? (
-                        <p className="feature-unavailable-message" style={{ color: 'var(--deep-pink)', fontSize: '0.95rem', margin: 0 }}>
-                          {product.unavailable_message || 'This product is unavailable at the moment'}
+                      { !isProductAvailable(product) ? (
+                        <p className="product-unavailable-message" style={{ color: 'var(--deep-pink)', fontSize: '0.95rem', margin: 0 }}>
+                          {product.unavailable_message || 'Currently unavailable'}
                         </p>
                       ) : (
-                        <button className="add-cart-btn" onClick={() => addToCart(product)}>
-                          Add to cart
-                        </button>
+                        <div className="mobile-cart-action-group" onClick={(e) => e.stopPropagation()}>
+                          <button 
+                            className={`add-cart-btn ${bouncingProductId === product.id ? 'active-bounce' : ''} ${addedProductId === product.id ? 'added-animate' : ''}`} 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAddToCart(product);
+                            }}
+                          >
+                            Add to cart
+                          </button>
+                          
+                          <Link 
+                            to="/cart" 
+                            className="mobile-cart-icon-btn"
+                            onClick={(e) => e.stopPropagation()}
+                            aria-label="View Cart"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                            {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+                          </Link>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -267,11 +304,7 @@ const Home = () => {
             ))}
           </div>
         </div>
-        {/* <div className="view-products-container">
-          <Link className="view-products-button" to="/product">
-            View products
-          </Link>
-        </div> */}
+  
       </section>
 
       <section className="testimonials">

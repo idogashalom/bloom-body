@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { adminAuthApi } from '../../services/adminApi';
 import Logo from '../../assets/bloom-logo.png';
@@ -7,6 +7,8 @@ import './AdminLayout.css';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -20,53 +22,66 @@ const AdminLayout = () => {
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--light-bg)', fontFamily: 'var(--sans)' }}>
+    <div className="admin-layout-container">
+      {/* Mobile top bar toggle button */}
+      <div className="admin-mobile-bar">
+        <button className="admin-mobile-toggle" onClick={() => setIsMobileOpen(true)} aria-label="Toggle navigation menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <span className="admin-mobile-title">Bloom Body Admin</span>
+      </div>
+
+      {/* Backdrop for mobile */}
+      {isMobileOpen && <div className="admin-sidebar-overlay" onClick={() => setIsMobileOpen(false)}></div>}
+
       {/* Sidebar */}
-      <aside className="admin-sidebar" style={{ width: '250px', backgroundColor: '#fff', borderRight: '2px solid var(--primary-pink)', padding: '20px 0', display: 'flex', flexDirection: 'column' }}>
+      <aside className={`admin-sidebar ${isCollapsed ? 'collapsed' : ''} ${isMobileOpen ? 'mobile-open' : ''}`}>
         <div className="admin-sidebar-brand">
           <img src={Logo} alt="Bloom Body Logo" />
-          <h2 style={{ color: 'var(--deep-pink)', textAlign: 'center', margin: 0, fontSize: '28px' }}>Bloom Body</h2>
+          {!isCollapsed && <h2>Bloom Body</h2>}
         </div>
         <hr className="admin-sidebar-divider" />
         
-        <nav className="admin-sidebar-nav" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 0 }}>
-          <NavLink to="/admin/dashboard" style={({isActive}) => ({
-            padding: '13px 20px', borderRadius: 0, textDecoration: 'none', display: 'block', width: '100%',
-            backgroundColor: isActive ? 'var(--primary-pink)' : 'transparent',
-            color: isActive ? 'var(--deep-pink)' : 'var(--text-dark)',
-            fontWeight: isActive ? 'bold' : 'normal', transition: 'all 0.3s'
-          })}>Dashboard</NavLink>
+        <nav className="admin-sidebar-nav">
+          <NavLink to="/admin/dashboard" onClick={() => setIsMobileOpen(false)} className="admin-nav-item">
+            <i className="fas fa-chart-line"></i>
+            {!isCollapsed && <span>Dashboard</span>}
+          </NavLink>
 
-          <NavLink to="/admin/products" style={({isActive}) => ({
-            padding: '13px 20px', borderRadius: 0, textDecoration: 'none', display: 'block', width: '100%',
-            backgroundColor: isActive ? 'var(--primary-pink)' : 'transparent',
-            color: isActive ? 'var(--deep-pink)' : 'var(--text-dark)',
-            fontWeight: isActive ? 'bold' : 'normal', transition: 'all 0.3s'
-          })}>Products</NavLink>
+          <NavLink to="/admin/products" onClick={() => setIsMobileOpen(false)} className="admin-nav-item">
+            <i className="fas fa-box"></i>
+            {!isCollapsed && <span>Products</span>}
+          </NavLink>
 
-          <NavLink to="/admin/notifications" style={({isActive}) => ({
-            padding: '13px 20px', borderRadius: 0, textDecoration: 'none', display: 'block', width: '100%',
-            backgroundColor: isActive ? 'var(--primary-pink)' : 'transparent',
-            color: isActive ? 'var(--deep-pink)' : 'var(--text-dark)',
-            fontWeight: isActive ? 'bold' : 'normal', transition: 'all 0.3s'
-          })}>Notifications</NavLink>
+          <NavLink to="/admin/notifications" onClick={() => setIsMobileOpen(false)} className="admin-nav-item">
+            <i className="fas fa-bell"></i>
+            {!isCollapsed && <span>Notifications</span>}
+          </NavLink>
 
-          <NavLink to="/admin/shop" style={({isActive}) => ({
-            padding: '13px 20px', borderRadius: 0, textDecoration: 'none', display: 'block', width: '100%',
-            backgroundColor: isActive ? 'var(--primary-pink)' : 'transparent',
-            color: isActive ? 'var(--deep-pink)' : 'var(--text-dark)',
-            fontWeight: isActive ? 'bold' : 'normal', transition: 'all 0.3s'
-          })}>Shop (Orders)</NavLink>
+          <NavLink to="/admin/shop" onClick={() => setIsMobileOpen(false)} className="admin-nav-item">
+            <i className="fas fa-shopping-bag"></i>
+            {!isCollapsed && <span>Shop (Orders)</span>}
+          </NavLink>
         </nav>
 
+        {/* Collapse Toggle Button (only on desktop) */}
+        <button 
+          onClick={() => setIsCollapsed(!isCollapsed)} 
+          className="admin-collapse-toggle-btn"
+          title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+        >
+          <i className={`fas fa-chevron-${isCollapsed ? 'right' : 'left'}`}></i>
+        </button>
+
         <hr className="admin-sidebar-divider" />
-        <button onClick={handleLogout} className="delete-btn admin-logout" style={{ margin: 0, padding: '10px', backgroundColor: '#fff', color: 'var(--deep-pink)', borderRadius: 0,  border: '1px solid rgba(233, 30, 99, 0.18)', cursor: 'pointer' }}>
-          Logout
+        <button onClick={handleLogout} className="delete-btn admin-logout">
+          <i className="fas fa-sign-out-alt"></i>
+          {!isCollapsed && <span>Logout</span>}
         </button>
       </aside>
 
       {/* Main Content */}
-      <main style={{ flex: 1, padding: '30px', overflowY: 'auto' }}>
+      <main className="admin-main-content">
         <Outlet />
       </main>
       <Toast />

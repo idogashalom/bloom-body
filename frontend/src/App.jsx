@@ -10,6 +10,9 @@ import TrackOrder from "./pages/TrackOrder";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ForgotPassword from "./components/ForgotPassword";
+import VerifyOTP from "./components/VerifyOTP";
+import ResetPassword from "./components/ResetPassword";
 import Footer from "./components/Footer";
 import BloomModals from "./components/BloomModals";
 import Toast from "./components/Toast";
@@ -58,10 +61,14 @@ function App() {
                       <Route path='/cart' element={<Cart />} />
                       <Route path='/login' element={<Login />} />
                       <Route path='/register' element={<Register />} />
+                      <Route path='/forgot-password' element={<ForgotPassword />} />
+                      <Route path='/verify-otp' element={<VerifyOTP />} />
+                      <Route path='/reset-password' element={<ResetPassword />} />
                       <Route path='/product/:id' element={<ProductDetails />} />
                       <Route path='/payment' element={<PaymentSelection />} />
                       <Route path='/track-order' element={<TrackOrder />} />
                       <Route path='/dashboard' element={<UserDashboard />} />
+                      <Route path='/dashboard/:tab' element={<UserDashboard />} />
                     </Routes>
                   </main>
                   <Footer />

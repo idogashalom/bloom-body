@@ -1,6 +1,4 @@
-/* =========================
-   UNIFORM CONTROLS
-========================= */
+/* UNIFORM CONTROL */
 :root {
   --bloom-button-bg: rgba(255, 245, 247, 0.96);
   --bloom-input-bg: rgba(255, 241, 243, 0.72);
@@ -146,4 +144,49 @@ textarea::placeholder {
 .cart-quantity-controls button:focus-visible {
   color: var(--deep-pink) !important;
   box-shadow: none !important;
+}
+
+/* Bounce effect on button click */
+.active-bounce {
+  animation: button-bounce 0.5s ease-out !important;
+}
+
+@keyframes button-bounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.85); }
+  50% { transform: scale(1.1); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Floating "+1" animation for adding to cart */
+.add-cart-btn,
+.add-to-cart-large {
+  position: relative;
+}
+
+.add-cart-btn.added-animate::after,
+.add-to-cart-large.added-animate::after {
+  content: "+1";
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--deep-pink);
+  font-weight: bold;
+  font-size: 1.25rem;
+  animation: float-up 0.8s ease-out forwards;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40px) scale(1.4);
+  }
 }

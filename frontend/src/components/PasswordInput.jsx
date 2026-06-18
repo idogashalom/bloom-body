@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './PasswordInput.css';
 
-const PasswordInput = ({ className = '', inputStyle, ...inputProps }) => {
+const PasswordInput = ({ className = '', inputStyle, disabled = false, ...inputProps }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -10,12 +10,14 @@ const PasswordInput = ({ className = '', inputStyle, ...inputProps }) => {
         {...inputProps}
         type={isVisible ? 'text' : 'password'}
         className="password-input"
+        disabled={disabled}
         style={inputStyle}
       />
       <button
         type="button"
         className="password-toggle"
         onClick={() => setIsVisible((visible) => !visible)}
+        disabled={disabled} 
         aria-label={isVisible ? 'Hide password' : 'Show password'}
         aria-pressed={isVisible}
         title={isVisible ? 'Hide password' : 'Show password'}

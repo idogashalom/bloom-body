@@ -184,7 +184,7 @@ const Products = () => {
         </div>
       </section>
 
-      <div className="admin-orders-table-wrap" style={{ backgroundColor: '#fff', borderRadius: '12px', boxShadow: 'var(--shadow)', overflowX: 'auto' }}>
+      <div className="admin-orders-table-wrap" style={{ display: 'block', backgroundColor: '#fff', borderRadius: '12px', boxShadow: 'var(--shadow)', overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '860px' }}>
           <thead>
             <tr style={{ backgroundColor: 'var(--primary-pink)', color: 'var(--deep-pink)', textAlign: 'left' }}>

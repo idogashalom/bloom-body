@@ -409,5 +409,124 @@ font-family: "'Great Vibes', cursive";
     font-size: 16px;
     box-shadow: 0 8px 18px rgba(233, 30, 99, 0.2);
   }
+}
+
+/* Stock and Sales info badges */
+.product-stock-sales-info {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.info-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.sold-badge {
+  background-color: rgba(233, 30, 99, 0.08);
+  color: var(--deep-pink);
+}
+
+.stock-badge {
+  background-color: rgba(40, 167, 69, 0.08);
+  color: #2a7d32;
+}
+
+/* Reviews Section styling */
+.product-reviews-section {
+  margin-top: 50px;
+  border-top: 1px solid rgba(233, 30, 99, 0.16);
+  padding-top: 40px;
+  text-align: left;
+}
+
+.product-reviews-section h2 {
+  font-family: "'Great Vibes', cursive";
+  color: var(--text-dark);
+  font-size: 32px;
+  margin-bottom: 24px;
+}
+
+.reviews-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-card {
+  background: #ffffff;
+  border: 1px solid rgba(233, 30, 99, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.review-user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-pink);
+  color: var(--deep-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.user-name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.verified-purchase {
+  display: block;
+  font-size: 0.75rem;
+  color: #2a7d32;
+  margin-top: 2px;
+}
+
+.review-date {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.review-stars-list {
+  display: flex;
+  gap: 4px;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.review-star.active {
+  color: gold;
+}
+
+.review-comment {
+  margin: 0;
+  color: #5f3c42;
+  line-height: 1.6;
+  font-size: 0.95rem;
 } 
     

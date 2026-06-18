@@ -45,7 +45,9 @@ const Navbar = () => {
           <NavLink to="/about" onClick={closeMenu}>About</NavLink>
           <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
           <NavLink to="/product" onClick={closeMenu}>Shop</NavLink>
-          <NavLink to="/dashboard" onClick={closeMenu}>Dashboard</NavLink>
+          {isLoggedIn && (
+            <NavLink to="/dashboard" onClick={closeMenu}>Dashboard</NavLink>
+          )}
         </div>
         <div className={`navbar-actions ${isMenuOpen ? "is-open" : ""}`}>
           <NavLink className="cart-link" to="/cart" aria-label="Cart" onClick={closeMenu}>
@@ -55,7 +57,7 @@ const Navbar = () => {
           {isLoggedIn ? (
             <button className="login-link" type="button" onClick={handleLogout}>Logout</button>
           ) : (
-            <NavLink className="login-link" to="/login" onClick={closeMenu} >Login</NavLink>
+            <NavLink className="login-link" to="/login" onClick={closeMenu} style={{color: 'var(--text-dark)'}}>Login</NavLink>
           )}
         </div>
       </div>

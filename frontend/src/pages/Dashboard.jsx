@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ordersApi } from "../services/api";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import PasswordInput from "../components/PasswordInput";
+import { ordersApi, notificationsApi } from "../services/api";
 import { useShop } from "../context/ShopContext";
 import "./Dashboard.css";
 
@@ -39,15 +40,20 @@ const getOrderNumber = (order) => {
 };
 
 const Dashboard = () => {
-    const { currentUser, isLoggedIn, logout } = useShop();
+    const { currentUser, isLoggedIn, logout, updateProfile } = useShop();
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("overview");
+    const { tab } = useParams();
+    const activeTab = tab || "overview";
     const [orders, setOrders] = useState([]);
     const [loadingOrders, setLoadingOrders] = useState(false);
     const [orderError, setOrderError] = useState(null);
+    const [profileData, setProfileData] = useState({ name: "", email: "" });
     const [passwordData, setPasswordData] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
     const [passwordMessage, setPasswordMessage] = useState("");
     const [formError, setFormError] = useState("");
+    const [notifications, setNotifications] = useState([]);
+    const [readNotifications, setReadNotifications] = useState([]);
+    const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -55,6 +61,13 @@ const Dashboard = () => {
             return;
         }
     }, [isLoggedIn, navigate]);
+
+    useEffect(() => {
+        setProfileData({
+            name: currentUser?.name || currentUser?.fullName || "",
+            email: currentUser?.email || "",
+        });
+    }, [currentUser]);
 
     useEffect(() => {
         let active = true;
@@ -86,6 +99,57 @@ const Dashboard = () => {
             active = false;
         };
     }, [currentUser]);
+
+    useEffect(() => {
+        try {
+            const stored = localStorage.getItem("bloomReadNotifications");
+            if (stored) {
+                setReadNotifications(JSON.parse(stored));
+            }
+        } catch (e) {
+            console.error("Failed to parse read notifications", e);
+        }
+    }, []);
+
+    useEffect(() => {
+        let active = true;
+        const fetchNotifs = async () => {
+            try {
+                const [data, deliveryData] = await Promise.all([
+                    notificationsApi.getAll(),
+                    ordersApi.getDeliveryNotifications(),
+                ]);
+                if (!active) return;
+                const deliveryNotifications = Array.isArray(deliveryData)
+                    ? deliveryData.map((order) => ({
+                        id: `delivery-${order.id}`,
+                        title: "Its delivery day bestie ðŸ’•",
+                        message: `Your order ${getOrderNumber(order)} is on the way today.`,
+                        created_at: order.delivery_date || new Date().toISOString(),
+                    }))
+                    : [];
+                setNotifications([...deliveryNotifications, ...(Array.isArray(data) ? data : [])]);
+            } catch (error) {
+                console.error("Failed to fetch notifications", error);
+            }
+        };
+        if (isLoggedIn) {
+            fetchNotifs();
+        }
+        return () => { active = false; };
+    }, [isLoggedIn, currentUser]);
+
+    const unreadCount = useMemo(() => {
+        return notifications.filter(n => !readNotifications.includes(n.id)).length;
+    }, [notifications, readNotifications]);
+
+    const markAsRead = (id) => {
+        if (!readNotifications.includes(id)) {
+            const newRead = [...readNotifications, id];
+            setReadNotifications(newRead);
+            localStorage.setItem("bloomReadNotifications", JSON.stringify(newRead));
+        }
+    };
 
     const loyaltyPoints = useMemo(() => {
         const points = currentUser?.loyalty_points ?? currentUser?.points ?? 0;
@@ -120,37 +184,55 @@ const Dashboard = () => {
         navigate("/login");
     };
 
-    const handleSaveProfile = (event) => {
+    const handleSaveProfile = async (event) => {
         event.preventDefault();
         setFormError("");
         setPasswordMessage("");
+        const cleanName = profileData.name.trim();
+        const cleanEmail = profileData.email.trim().toLowerCase();
+
+        if (!cleanName || !cleanEmail) {
+            setFormError("Name and email are required.");
+            return;
+        }
+
         const { currentPassword, newPassword, confirmPassword } = passwordData;
 
-        if (!currentPassword && !newPassword && !confirmPassword) {
-            setPasswordMessage("No password changes detected.");
+        const isChangingPassword = currentPassword || newPassword || confirmPassword;
+
+        if (isChangingPassword) {
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                setFormError("Please complete all password fields before saving.");
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                setFormError("New password and confirmation do not match.");
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                setFormError("New password must be at least 8 characters.");
+                return;
+            }
+        }
+
+        const result = await updateProfile({
+            name: cleanName,
+            email: cleanEmail,
+            currentPassword,
+            newPassword,
+            confirmPassword,
+        });
+        if (!result.ok) {
+            setFormError(result.message || "Unable to update profile.");
             return;
         }
 
-        if (!currentPassword || !newPassword || !confirmPassword) {
-            setFormError("Please complete all password fields before saving.");
-            return;
+        setPasswordMessage(result.message || "Profile updated successfully.");
+        if (isChangingPassword) {
+            setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
         }
-
-        if (newPassword !== confirmPassword) {
-            setFormError("New password and confirmation do not match.");
-            return;
-        }
-
-        if (newPassword.length < 8) {
-            setFormError("New password must be at least 8 characters.");
-            return;
-        }
-
-        setPasswordMessage(
-            "Password form validated. Password update is ready for API integration when available."
-        );
-        setFormError("");
-        setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
     };
 
     return (
@@ -164,47 +246,107 @@ const Dashboard = () => {
                             <p>Member since {memberSinceYear}</p>
                         </div>
                     </div>
-                    <nav className="dashboard-menu" aria-label="Dashboard navigation">
-                        <button
-                            type="button"
-                            className={`dashboard-menu-item ${activeTab === "overview" ? "active" : ""
-                                }`}
-                            onClick={() => setActiveTab("overview")}
-                        >
-                            Overview
-                        </button>
+                    <hr className="dashboard-sidebar-divider" style={{BackgroundColor: 'var(--deep-pink)' }} />
+<div className="dashboard-stats">
+                    <NavLink to="/dashboard/overview" style={({ isActive }) => ({
+                        padding: '13px 20px', borderRadius: 0, textDecoration: 'none', width: '100%',
+                        backgroundColor: isActive ? '#fff' : 'transparent', color: isActive ? 'var(--deep-pink)' : 'var(--text-dark)',
+                        fontWeight: isActive ? 'bold' : 'normal', transition: 'all 0.3s',
+                        BoxShadow: '0 8px 20px rgba(233, 30, 99, 0.3)', display: 'grid',
+  gridTemplateColumns: '1fr',
+  gap: '14px'
+                    })}>Overview</NavLink>
 
-                        <button
-                            type="button"
-                            className={`dashboard-menu-item ${activeTab === "orders" ? "active" : ""
-                                }`}
-                            onClick={() => setActiveTab("orders")}
-                        >
-                            My Orders
-                        </button>
+                    <NavLink to="/dashboard/orders" style={({ isActive }) => ({
+                        padding: '13px 20px', borderRadius: 0, textDecoration: 'none', width: '100%',
+                        backgroundColor: isActive ? '#fff' : 'transparent', color: isActive ? 'var(--deep-pink)' : 'var(--text-dark)',
+                        fontWeight: isActive ? 'bold' : 'normal', transition: 'all 0.3s',
+                        BoxShadow: '0 8px 20px rgba(233, 30, 99, 0.3)', display: 'grid',
+  gridTemplateColumns: '1fr',
+  gap: '14px'
+                    })}>My Orders</NavLink>
 
-                        <button
-                            type="button"
-                            className={`dashboard-menu-item ${activeTab === "profile" ? "active" : ""
-                                }`}
-                            onClick={() => setActiveTab("profile")}
-                        >
-                            Profile Settings
-                        </button>
-                    </nav>
-                    <button type="button" className="dashboard-logout-button" onClick={handleLogout}>
+                    <NavLink to="/dashboard/notifications" style={({ isActive }) => ({
+                        padding: '13px 20px', borderRadius: 0, textDecoration: 'none', width: '100%',
+                        backgroundColor: isActive ? '#fff' : 'transparent', color: isActive ? 'var(--deep-pink)' : 'var(--text-dark)',
+                        fontWeight: isActive ? 'bold' : 'normal', transition: 'all 0.3s',
+                            BoxShadow: '0 8px 20px rgba(233, 30, 99, 0.3)',  display: 'grid',
+                            gridTemplateColumns: '1fr',
+                            gap: '14px'
+                    })}>Notifications</NavLink>
+
+                    <NavLink to="/dashboard/profile" style={({ isActive }) => ({
+                        padding: '13px 20px', borderRadius: 0, textDecoration: 'none',width: '100%',
+                        backgroundColor: isActive ? '#fff' : 'transparent',
+                        color: isActive ? 'var(--deep-pink)' : 'var(--text-dark)',
+                        fontWeight: isActive ? 'bold' : 'normal', transition: 'all 0.3s',
+                        BoxShadow: '0 8px 20px rgba(233, 30, 99, 0.3)', display: 'grid',
+  gridTemplateColumns: '1fr',
+  gap: '14px'
+                    })}>Profile settings</NavLink>
+</div>
+
+                    {/* <button type="button" className="dashboard-logout-button" onClick={handleLogout}>
                         <span className="dashboard-menu-logout"></span>
                         Logout
-                    </button>
+                    </button> */}
                 </aside>
 
                 <section className="dashboard-content">
+                    <header className="dashboard-top-bar">
+                        <div className="dashboard-bell-container">
+                            <button 
+                                type="button" 
+                                className="dashboard-bell-btn"
+                                onClick={() => setShowNotificationDropdown(!showNotificationDropdown)}
+                            >
+                                <i className="fas fa-bell"></i> {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
+                            </button>
+                            {showNotificationDropdown && (
+                                <div className="notification-dropdown">
+                                    <div className="notification-dropdown-header">
+                                        <h3>Notifications</h3>
+                                        <button type="button" onClick={() => setShowNotificationDropdown(false)}>✕</button>
+                                    </div>
+                                    <div className="notification-dropdown-list">
+                                        {notifications.length === 0 ? (
+                                            <div className="notification-dropdown-empty">No notifications yet.</div>
+                                        ) : (
+                                            notifications.map(n => {
+                                                const isRead = readNotifications.includes(n.id);
+                                                return (
+                                                    <div 
+                                                        key={n.id} 
+                                                        className={`notification-dropdown-item ${isRead ? 'read' : 'unread'}`}
+                                                        onClick={() => markAsRead(n.id)}
+                                                    >
+                                                        <h4>{n.title}</h4>
+                                                        {n.message && <p className="notification-msg">{n.message}</p>}
+                                                        <span className="notification-time">{formatDate(n.created_at)}</span>
+                                                    </div>
+                                                );
+                                            })
+                                        )}
+                                    </div>
+                                    <div className="notification-dropdown-footer">
+                                        <button type="button" onClick={() => {
+                                            setShowNotificationDropdown(false);
+                                            navigate("/dashboard/notifications");
+                                        }}>
+                                            View All Notifications
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </header>
+
                     {activeTab === "overview" && (
                         <>
                             <div className="dashboard-card dashboard-welcome-card">
                                 <div>
                                     <p className="dashboard-subtitle">Welcome back, {currentUser?.name || currentUser?.fullName || "friend"}!</p>
-                                    <h1>Stay consistent, stay motivated, and keep building the body you deserve.</h1>
+                                    <h1 >Stay consistent, stay motivated, and keep building the body you deserve.</h1>
                                 </div>
                                 <div className="dashboard-stats-grid">
                                     <div className="dashboard-stat-card">
@@ -224,7 +366,7 @@ const Dashboard = () => {
                                         <h2>Recent Orders</h2>
                                         <p>Review your latest order activity.</p>
                                     </div>
-                                    <button type="button" className="view-btn dashboard-view-all" onClick={() => setActiveTab("orders")}>View All</button>
+                                    <button type="button" className="view-btn dashboard-view-all" onClick={() => navigate("/dashboard/orders")}>View All</button>
                                 </div>
                                 {loadingOrders ? (
                                     <div className="dashboard-loading">Loading orders...</div>
@@ -262,7 +404,7 @@ const Dashboard = () => {
                                     <h2>My Orders</h2>
                                     <p>Track order status, totals, and details in one place.</p>
                                 </div>
-                                <button type="button" className="view-btn dashboard-view-all" onClick={() => setActiveTab("overview")}>Back to Overview</button>
+                                <button type="button" className="view-btn dashboard-view-all" onClick={() => navigate("/dashboard/overview")}>Back to Overview</button>
                             </div>
                             {loadingOrders ? (
                                 <div className="dashboard-loading">Loading orders...</div>
@@ -310,7 +452,9 @@ const Dashboard = () => {
                             <div className="dashboard-profile-info">
                                 <div className="dashboard-profile-field">
                                     <label>Full Name</label>
-                                    <div className="dashboard-profile-value">{currentUser?.name || currentUser?.fullName || "—"}</div>
+                                    <div className="dashboard-profile-value">
+                                        {currentUser?.name || currentUser?.fullName || "—"} — Member since {memberSinceYear}
+                                    </div>
                                 </div>
                                 <div className="dashboard-profile-field">
                                     <label>Email Address</label>
@@ -321,9 +465,8 @@ const Dashboard = () => {
                                 <div className="dashboard-security-grid">
                                     <div className="dashboard-form-field">
                                         <label htmlFor="currentPassword">Current Password</label>
-                                        <input
+                                        <PasswordInput
                                             id="currentPassword"
-                                            type="password"
                                             value={passwordData.currentPassword}
                                             onChange={(event) => setPasswordData((prev) => ({ ...prev, currentPassword: event.target.value }))}
                                             placeholder="Enter current password"
@@ -331,9 +474,8 @@ const Dashboard = () => {
                                     </div>
                                     <div className="dashboard-form-field">
                                         <label htmlFor="newPassword">New Password</label>
-                                        <input
+                                        <PasswordInput
                                             id="newPassword"
-                                            type="password"
                                             value={passwordData.newPassword}
                                             onChange={(event) => setPasswordData((prev) => ({ ...prev, newPassword: event.target.value }))}
                                             placeholder="Create a new password"
@@ -341,9 +483,8 @@ const Dashboard = () => {
                                     </div>
                                     <div className="dashboard-form-field">
                                         <label htmlFor="confirmPassword">Confirm New Password</label>
-                                        <input
+                                        <PasswordInput
                                             id="confirmPassword"
-                                            type="password"
                                             value={passwordData.confirmPassword}
                                             onChange={(event) => setPasswordData((prev) => ({ ...prev, confirmPassword: event.target.value }))}
                                             placeholder="Confirm new password"
@@ -356,8 +497,66 @@ const Dashboard = () => {
                             </form>
                         </div>
                     )}
+
+                    {activeTab === "notifications" && (
+                        <div className="dashboard-card dashboard-notifications-full">
+                            <div className="dashboard-section-header">
+                                <div>
+                                    <h2>Notifications</h2>
+                                    <p>Stay up to date with the latest announcements and updates.</p>
+                                </div>
+                            </div>
+                            {notifications.length === 0 ? (
+                                <div className="dashboard-empty-state">No notifications found.</div>
+                            ) : (
+                                <div className="dashboard-notifications-grid">
+                                    {notifications.map((n) => {
+                                        const isRead = readNotifications.includes(n.id);
+                                        return (
+                                            <article 
+                                                className={`dashboard-notification-item ${isRead ? 'read' : 'unread'}`} 
+                                                key={n.id}
+                                                onClick={() => markAsRead(n.id)}
+                                            >
+                                                <div className="dashboard-notification-item-header">
+                                                    <div>
+                                                        <h3 className="dashboard-notification-title">{n.title}</h3>
+                                                        <p className="dashboard-notification-date">{formatDate(n.created_at)}</p>
+                                                    </div>
+                                                    {!isRead && <span className="dashboard-notification-status status-unread">New</span>}
+                                                </div>
+                                                <div className="dashboard-notification-item-body">
+                                                    {n.message && <p>{n.message}</p>}
+                                                </div>
+                                            </article>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </section>
             </div>
+
+            {/* Mobile bottom navigation bar */}
+            <nav className="dashboard-mobile-nav">
+                <NavLink to="/dashboard/overview" className="mobile-nav-item">
+                    <i className="fas fa-th-large"></i>
+                    <span>Overview</span>
+                </NavLink>
+                <NavLink to="/dashboard/orders" className="mobile-nav-item">
+                    <i className="fas fa-shopping-bag"></i>
+                    <span>My Orders</span>
+                </NavLink>
+                <NavLink to="/dashboard/notifications" className="mobile-nav-item">
+                    <i className="fas fa-bell"></i>
+                    <span>Inbox</span>
+                </NavLink>
+                <NavLink to="/dashboard/profile" className="mobile-nav-item">
+                    <i className="fas fa-user"></i>
+                    <span>You</span>
+                </NavLink>
+            </nav>
         </main>
     );
 };

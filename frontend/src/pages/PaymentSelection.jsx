@@ -51,6 +51,18 @@ const PaymentSelection = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { cart, clearCart, currentUser } = useShop();
+
+  const selectedCart = useMemo(() => {
+    try {
+      const selectedIds = JSON.parse(localStorage.getItem("bloomSelectedCartItemIds") || "[]");
+      if (selectedIds && selectedIds.length > 0) {
+        return cart.filter(item => selectedIds.includes(item.id));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return cart;
+  }, [cart]);
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const returnHandled = useRef(false);
@@ -144,8 +156,8 @@ const PaymentSelection = () => {
   };
 
   const proceedToFlutterwave = async () => {
-    if (cart.length === 0) {
-      toast('Your cart is empty.');
+    if (selectedCart.length === 0) {
+      toast('Your cart is empty or no items are selected.');
       return;
     }
 
@@ -170,7 +182,7 @@ const PaymentSelection = () => {
       }
 
       const shippingAddress = buildShippingAddress();
-      const items = cart.map((item) => ({
+      const items = selectedCart.map((item) => ({
           product_id: item.id,
           quantity: item.quantity,
       }));

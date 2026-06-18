@@ -7,7 +7,7 @@ const request = async (path, options = {}) => {
     "Content-Type": "application/json",
     ...(options.headers || {}),
   };
-  
+
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -47,6 +47,31 @@ export const authApi = {
       method: "POST",
     }),
   me: () => request("/user"),
+  updateProfile: (payload) =>
+    request("/user", {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }),
+  forgotPassword: (payload) =>
+    request("/forgot-password", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  verifyOtp: (payload) =>
+    request("/verify-otp", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  resetPassword: (payload) =>
+    request("/reset-password", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  resendOtp: (payload) =>
+    request("/resend-otp", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
 };
 
 export const productsApi = {

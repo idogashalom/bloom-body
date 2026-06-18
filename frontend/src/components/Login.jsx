@@ -61,7 +61,7 @@ function Login() {
             <PasswordInput name="password" placeholder="Your password" required />
           </label>
 
-          <a className="auth-forgot-link" href="#">
+          <a className="auth-forgot-link" href="/forgot-password">
             Forgot your password?
           </a>
 

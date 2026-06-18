@@ -49,8 +49,8 @@ const DeliveryNotification = () => {
   if (!noticeKey || dismissedKey === noticeKey) return null;
 
   const dismissNotice = () => {
-    localStorage.setItem("bloomDeliveryNoticeDismissed", noticeKey);
     setDismissedKey(noticeKey);
+    localStorage.setItem("bloomDeliveryNoticeDismissed", noticeKey);
   };
 
   return (
